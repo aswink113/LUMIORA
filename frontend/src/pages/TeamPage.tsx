@@ -4,6 +4,7 @@ import type { Variants } from 'framer-motion';
 import { Navbar } from '../components/Navbar';
 import { ProjectPlannerModal } from '../components/ProjectPlannerModal';
 import { CustomCursor } from '../components/CustomCursor';
+import { Footer } from '../components/Footer';
 import { getTeam, addTeamMember, deleteTeamMember } from '../utils/db';
 
 interface TeamMember {
@@ -428,6 +429,7 @@ export const TeamPage = () => {
           </button>
         </motion.div>
       </section>
+      <Footer />
     </div>
   );
 };

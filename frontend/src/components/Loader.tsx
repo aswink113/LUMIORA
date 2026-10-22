@@ -65,14 +65,14 @@ export const Loader = ({ onLoadingComplete }: { onLoadingComplete: () => void })
               </span>
             </motion.div>
 
-            {/* Slogan */}
+            {/* Services / Pillars */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
-              className="flex items-center gap-2 mb-8"
+              className="flex items-center gap-2 mb-3"
             >
-              {['DESIGN', 'CREATE', 'ELEVATE'].map((word, i) => (
+              {['WEB', 'APPS', 'MARKETING'].map((word, i) => (
                 <motion.span
                   key={word}
                   initial={{ opacity: 0 }}
@@ -93,6 +93,16 @@ export const Loader = ({ onLoadingComplete }: { onLoadingComplete: () => void })
                 </motion.span>
               ))}
             </motion.div>
+
+            {/* Slogan */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.5, ease: "easeOut" }}
+              className="text-xs sm:text-sm tracking-[0.3em] uppercase text-zinc-500 font-medium text-center mb-8"
+            >
+              Where Innovation Begins
+            </motion.p>
           </div>
 
           {/* Premium Progress Bar */}

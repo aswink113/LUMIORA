@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Navbar } from '../components/Navbar';
 import { ProjectPlannerModal } from '../components/ProjectPlannerModal';
 import { CustomCursor } from '../components/CustomCursor';
+import { Footer } from '../components/Footer';
 import { getBlogs } from '../utils/db';
 
 const categories = ['All', 'Design', 'Development', 'AI', 'Business', 'Case Study'];
@@ -313,6 +314,7 @@ export const BlogPage = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

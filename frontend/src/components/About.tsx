@@ -101,19 +101,14 @@ export const About = () => {
             variants={itemVariants}
             className="text-text-muted text-lg leading-relaxed mb-6"
           >
-            Lumiora is a full-service digital consultancy specialising in crafting
-            transformative digital products. We partner with startups, scale-ups, and
-            enterprises to design, build, and launch experiences that drive real business
-            outcomes.
+            Lumiora is where innovation begins. We specialize across Web, Apps, and Marketing — partnering with ambitious startups, scale-ups, and enterprises to design, engineer, and launch transformative digital experiences that drive market leadership.
           </motion.p>
 
           <motion.p
             variants={itemVariants}
             className="text-text-muted/80 text-base leading-relaxed mb-10"
           >
-            Founded by a team of product thinkers and engineers, we operate at the
-            intersection of strategy, design, and technology. We don't just build websites
-            — we engineer competitive advantages.
+            Founded by a team of product builders, designers, and growth marketers, we operate at the intersection of creative strategy, high-performance technology, and measurable impact.
           </motion.p>
 
           <MotionLink

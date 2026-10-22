@@ -4,6 +4,7 @@ import { Navbar } from '../components/Navbar';
 import { Portfolio } from '../components/Portfolio';
 import { ProjectPlannerModal } from '../components/ProjectPlannerModal';
 import { CustomCursor } from '../components/CustomCursor';
+import { Footer } from '../components/Footer';
 
 const filters = ['All', 'Web Development', 'Mobile Apps', 'AI & Machine Learning', 'UI/UX Design'];
 
@@ -107,6 +108,7 @@ export const WorkPage = () => {
           </button>
         </motion.div>
       </section>
+      <Footer />
     </div>
   );
 };

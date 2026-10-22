@@ -15,6 +15,7 @@ import { Portfolio } from './components/Portfolio';
 import { Testimonials } from './components/Testimonials';
 import { Clients } from './components/Clients';
 import { CTA } from './components/CTA';
+import { Footer } from './components/Footer';
 import { ProjectPlannerModal } from './components/ProjectPlannerModal';
 import { WorkPage } from './pages/WorkPage';
 import { BlogPage } from './pages/BlogPage';
@@ -106,6 +107,7 @@ function HomePage() {
               <Testimonials />
               <CTA onOpenPlanner={() => openPlanner()} />
             </main>
+            <Footer />
           </div>
         )}
       </AnimatePresence>

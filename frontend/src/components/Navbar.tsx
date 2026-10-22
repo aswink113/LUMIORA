@@ -79,9 +79,14 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
                 alt="Lumiora Logo" 
                 className="w-9 h-9 object-contain group-hover:rotate-[360deg] transition-transform duration-700" 
               />
-              <span className="text-xl font-bold tracking-[0.25em] bg-gradient-to-r from-[#5E5BFF] to-[#A855F7] bg-clip-text text-transparent group-hover:from-[#A855F7] group-hover:to-[#5E5BFF] transition-all duration-500 font-logo uppercase">
-                LUMIORA
-              </span>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold tracking-[0.22em] bg-gradient-to-r from-[#5E5BFF] to-[#A855F7] bg-clip-text text-transparent group-hover:from-[#A855F7] group-hover:to-[#5E5BFF] transition-all duration-500 font-logo uppercase leading-none">
+                  LUMIORA
+                </span>
+                <span className="text-[8.5px] font-semibold tracking-[0.22em] text-stone-400 group-hover:text-[#5E5BFF] transition-colors uppercase mt-0.5">
+                  WEB • APPS • MARKETING
+                </span>
+              </div>
             </Link>
           </div>
 

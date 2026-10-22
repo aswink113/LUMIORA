@@ -21,17 +21,17 @@ export const CTA = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
-          <span className="inline-block text-xs uppercase tracking-[0.3em] text-blue-400 font-semibold mb-8 px-4 py-1.5 rounded-full border border-blue-500/20 bg-blue-500/5">
-            Let's Build Together
+          <span className="inline-block text-xs uppercase tracking-[0.3em] text-[#5E5BFF] font-semibold mb-8 px-4 py-1.5 rounded-full border border-[#5E5BFF]/25 bg-[#5E5BFF]/8">
+            WHERE INNOVATION BEGINS
           </span>
 
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold font-heading leading-[1.0] tracking-tight text-text-main mb-6">
-            Ready to Start <br />
-            <span className="text-gradient">Your Project?</span>
+            Ready to Build <br />
+            <span className="text-gradient">With LUMIORA?</span>
           </h2>
 
           <p className="text-text-muted text-lg md:text-xl max-w-xl mx-auto leading-relaxed mb-12">
-            Whether you're launching a new product or scaling an existing one, we're ready to help you move fast and build right.
+            Whether you need a bespoke web platform, scalable application, or growth-focused marketing engine, we are ready to build what's next.
           </p>
 
           {/* Buttons */}

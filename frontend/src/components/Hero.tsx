@@ -406,7 +406,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
           >
             <Sparkles className="w-3.5 h-3.5 animate-pulse" />
             <span>
-              ✨ {dynamicIcons.length > 0 ? dynamicIcons.map((ico) => ico.label).join(' • ') : 'AI • Web • Mobile • Branding • Cloud'}
+              WEB • APPS • MARKETING
             </span>
           </motion.div>
 
@@ -418,7 +418,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="text-6xl sm:text-8xl lg:text-8xl font-extrabold text-[#111111] leading-[1.08] tracking-tight font-heading max-w-none"
             >
-              WHERE <span className="text-gradient font-black">INNOVATION</span> <br className="hidden sm:inline" />MEETS INTELLIGENCE
+              WHERE <span className="text-gradient font-black">INNOVATION</span> <br className="hidden sm:inline" />BEGINS
             </motion.h1>
 
             <motion.p
@@ -427,7 +427,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="text-stone-500 text-base md:text-lg font-medium leading-relaxed max-w-xl"
             >
-              Lumiora designs and develops premium websites, AI-powered applications, enterprise software, branding, cloud solutions, and digital products that help ambitious businesses scale faster.
+              Lumiora designs and develops premium websites, high-performance web & mobile applications, and scalable digital marketing strategies that help ambitious businesses grow faster.
             </motion.p>
           </div>
 
