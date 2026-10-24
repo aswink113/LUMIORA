@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import VenomButton from './VenomButton';
 
 export const CTA = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -36,24 +37,18 @@ export const CTA = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-            <button
+            <VenomButton
               onClick={() => onOpenPlanner && onOpenPlanner()}
-              className="group relative px-8 py-4 rounded-full overflow-hidden hover-target transition-all hover:scale-105 active:scale-95 cursor-none text-white font-bold shadow-lg shadow-[#5E5BFF]/25 hover:shadow-xl hover:shadow-[#5E5BFF]/40"
-              style={{
-                background: 'linear-gradient(135deg, #5E5BFF 0%, #7B68FF 50%, #8A6DFF 100%)',
-                color: '#FFFFFF'
-              }}
+              gooColor="#5E5BFF"
+              textColor="#FFFFFF"
+              size={54}
+              className="text-sm sm:text-base font-bold tracking-wide"
             >
-              <span className="relative z-10 flex items-center gap-2.5">
-                Schedule a Discovery Call
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </span>
-              <div 
-                className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
-              />
-            </button>
+              Schedule a Discovery Call
+              <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </VenomButton>
 
             <a
               href="mailto:lumiora.innovate@gmail.com"

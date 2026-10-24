@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import VenomButton from './VenomButton';
 
 export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -120,17 +121,16 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
               )
             ))}
 
-            <button
+            <VenomButton
               onClick={onOpenPlanner}
-              className="px-6 py-2.5 text-white rounded-full font-bold transition-all duration-300 hover-target ml-2 text-sm cursor-none hover:scale-105 active:scale-95 flex items-center gap-1 group/btn"
-              style={{
-                background: 'linear-gradient(135deg, #5E5BFF 0%, #7B68FF 100%)',
-                boxShadow: '0 4px 20px rgba(94,91,255,0.22)',
-              }}
+              gooColor="#5E5BFF"
+              textColor="#FFFFFF"
+              size={42}
+              className="text-xs sm:text-sm font-bold ml-2"
             >
               Start Your Project
-              <span className="group-hover/btn:translate-x-1 transition-transform duration-300">→</span>
-            </button>
+              <span className="ml-1">→</span>
+            </VenomButton>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -206,22 +206,20 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
                   </motion.a>
                 )
               ))}
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="mt-8 px-8 py-4 rounded-full text-xl hover-target cursor-none text-white font-bold"
-                style={{
-                  background: 'linear-gradient(135deg, #5E5BFF 0%, #7B68FF 100%)',
-                  boxShadow: '0 4px 20px rgba(94,91,255,0.22)',
-                }}
-                onClick={() => {
-                  setMenuOpen(false);
-                  onOpenPlanner();
-                }}
-              >
-                Start Your Project →
-              </motion.button>
+              <div className="mt-8 flex justify-center">
+                <VenomButton
+                  onClick={() => {
+                    setMenuOpen(false);
+                    onOpenPlanner();
+                  }}
+                  gooColor="#5E5BFF"
+                  textColor="#FFFFFF"
+                  size={54}
+                  className="text-lg font-bold"
+                >
+                  Start Your Project →
+                </VenomButton>
+              </div>
             </div>
           </motion.div>
         )}

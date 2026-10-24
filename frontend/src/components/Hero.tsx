@@ -3,6 +3,7 @@ import { motion, useSpring, AnimatePresence } from 'framer-motion';
 import { Sparkles, PhoneCall } from 'lucide-react';
 import { getExpertiseCards } from '../utils/db';
 import TextMorph from './TextMorph';
+import VenomButton from './VenomButton';
 
 export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
   const [activeModal, setActiveModal] = useState<'project' | 'portfolio' | null>(null);
@@ -172,28 +173,27 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
             className="flex flex-wrap gap-4 items-center w-full z-30 pt-1"
           >
             {/* Primary CTA */}
-            <motion.button
+            <VenomButton
               onClick={onOpenPlanner}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="relative group/btn overflow-hidden px-8 py-4 bg-gradient-to-r from-[#5E5BFF] to-[#8A6DFF] text-white text-sm font-bold rounded-full tracking-wider transition-all duration-300 uppercase shadow-lg shadow-[#5E5BFF]/20"
+              gooColor="#5E5BFF"
+              textColor="#FFFFFF"
+              size={52}
+              className="text-xs sm:text-sm font-bold tracking-wider uppercase"
             >
-              <span className="absolute inset-0 bg-white/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
-              <span className="relative z-10 flex items-center gap-2">
-                CONNECT WITH US
-                <PhoneCall className="w-4 h-4" />
-              </span>
-            </motion.button>
+              CONNECT WITH US
+              <PhoneCall className="w-4 h-4 ml-1" />
+            </VenomButton>
 
             {/* Secondary CTA */}
-            <motion.button
+            <VenomButton
               onClick={() => setActiveModal('portfolio')}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 bg-white/75 hover:bg-white/95 backdrop-blur-md border border-slate-300/80 text-slate-900 text-sm font-black rounded-full tracking-wider transition-all duration-300 uppercase shadow-md"
+              gooColor="#FFFFFF"
+              textColor="#0F172A"
+              size={52}
+              className="text-xs sm:text-sm font-black tracking-wider uppercase"
             >
               Explore Our Work
-            </motion.button>
+            </VenomButton>
           </motion.div>
         </div>
 
