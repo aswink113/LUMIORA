@@ -79,8 +79,8 @@ export const Footer = () => {
                 <span className="text-xl font-black tracking-[0.22em] bg-gradient-to-r from-[#5E5BFF] via-[#7B68FF] to-[#A855F7] bg-clip-text text-transparent font-logo uppercase leading-none">
                   LUMIORA
                 </span>
-                <span className="text-[9px] font-semibold tracking-[0.25em] text-stone-400 group-hover:text-[#5E5BFF] transition-colors uppercase mt-0.5">
-                  WHERE INNOVATION BIGINS
+                <span className="text-[9.5px] font-bold tracking-[0.24em] text-slate-700 group-hover:text-[#5E5BFF] transition-colors uppercase mt-0.5">
+                  WHERE INNOVATION BEGINS
                 </span>
               </div>
             </Link>
