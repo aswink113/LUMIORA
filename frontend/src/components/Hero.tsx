@@ -76,31 +76,14 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
           className="w-full h-full object-cover object-center"
         />
 
-        {/* ── Multi-Layer Smoky Atmosphere Tightly Anchored to the Bottom Edge ── */}
-        {/* Layer 1: Smooth Gradient Fade (Lowered to bottom edge) */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-32 sm:h-44 md:h-52 pointer-events-none"
-          style={{
-            background: 'linear-gradient(to bottom, transparent 0%, rgba(252, 252, 252, 0.15) 30%, rgba(245, 244, 255, 0.55) 60%, rgba(250, 242, 255, 0.9) 85%, #FCFCFC 100%)',
-          }}
-        />
+      </div>
 
-        {/* Layer 2: Ethereal Misty Blur along the bottom boundary */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 backdrop-blur-[2px] sm:backdrop-blur-[3px] pointer-events-none"
-          style={{
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 85%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 85%)',
-          }}
-        />
-
-        {/* Layer 3: Low-Hanging Smoky Fog Cloud at boundary */}
-        <div
-          className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[115vw] h-28 sm:h-36 pointer-events-none rounded-[100%]"
-          style={{
-            background: 'radial-gradient(ellipse at center bottom, rgba(252, 252, 252, 0.95) 0%, rgba(245, 244, 255, 0.6) 40%, transparent 75%)',
-            filter: 'blur(14px)',
-          }}
+      {/* ── Ornamental Page Break Border (Replaces Smoke Effect) ── */}
+      <div className="absolute bottom-0 left-0 right-0 w-full z-30 pointer-events-none select-none flex items-end">
+        <img
+          src="/border.png"
+          alt="Page break border"
+          className="w-full h-auto min-h-[28px] sm:min-h-[42px] md:min-h-[56px] max-h-16 sm:max-h-20 md:max-h-24 lg:max-h-28 object-cover sm:object-fill object-center drop-shadow-[0_-2px_12px_rgba(45,2,122,0.18)]"
         />
       </div>
 
