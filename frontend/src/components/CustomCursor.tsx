@@ -3,6 +3,13 @@
 
 import { useEffect, useRef } from "react";
 
+const GLOVE =
+    "M9 14V3.6a2.5 2.5 0 0 1 5 0V12.2a2.2 2.2 0 0 1 4.4 0.4a2.2 2.2 0 0 1 4.4 0.8a2.2 2.2 0 0 1 4.2 1.6V22c0 4-2.6 7-6 7H14.6c-3 0-5.4-1.8-6.6-4.4L4.1 18.6a2.3 2.3 0 0 1 3.6-2.8L9 17.4Z";
+const GLOVE_LINES = "M18.4 12.6V17.2M22.8 13.4V17.6M14 12.2V16.6";
+const CUFF = "M12.6 28.6h12.2a1.6 1.6 0 0 1 1.6 1.6v3.4a1.6 1.6 0 0 1-1.6 1.6H12.6a1.6 1.6 0 0 1-1.6-1.6v-3.4a1.6 1.6 0 0 1 1.6-1.6Z";
+const CUFF_LINES = "M15.4 29.2v5.4M18.7 29.2v5.4M22 29.2v5.4";
+const HOT_X = 11.5, HOT_Y = 1;
+
 type Particle = {
     x: number;
     y: number;
@@ -158,6 +165,17 @@ export default function ParticleCursor({
             }
         };
 
+        const gloveP = new Path2D(GLOVE);
+        const gloveL = new Path2D(GLOVE_LINES);
+        const cuffP = new Path2D(CUFF);
+        const cuffL = new Path2D(CUFF_LINES);
+
+        let isDown = false;
+        let isHoveringInteractive = false;
+
+        const onDown = () => { isDown = true; };
+        const onUp = () => { isDown = false; };
+
         const onMove = (e: PointerEvent) => {
             const rect = canvas.getBoundingClientRect();
             const sx = rect.width > 0 ? canvas.clientWidth / rect.width : 1;
@@ -167,6 +185,7 @@ export default function ParticleCursor({
             inside = x >= 0 && x <= w && y >= 0 && y <= h;
             mouseX = x;
             mouseY = y;
+            isHoveringInteractive = !!(e.target as HTMLElement)?.closest?.('a, button, [role="button"], input, select, textarea, .hover-target');
             hideNativeCursor(inside);
             if (inside) {
                 pending = true;
@@ -178,6 +197,8 @@ export default function ParticleCursor({
             hideNativeCursor(false);
         };
         window.addEventListener("pointermove", onMove, { passive: true });
+        window.addEventListener("pointerdown", onDown, { passive: true });
+        window.addEventListener("pointerup", onUp, { passive: true });
         document.documentElement.addEventListener("pointerleave", onWindowLeave);
 
         const spawn = () => {
@@ -254,12 +275,48 @@ export default function ParticleCursor({
             particles = survivors;
             ctx.globalAlpha = 1;
 
-            if (inside) {
-                const pulse = 1 + Math.sin(clock * 10) * 0.25;
-                ctx.fillStyle = p.dotColor;
-                ctx.beginPath();
-                ctx.arc(mouseX, mouseY, (p.dotSize / 2) * pulse, 0, Math.PI * 2);
-                ctx.fill();
+            // Draw matching Venom Glove Cursor across the site
+            if (inside && !(window as any).__venomCursorActive) {
+                const sc = isDown ? 1.25 : isHoveringInteractive ? 1.48 : 1.38;
+                ctx.save();
+                ctx.translate(mouseX - HOT_X * sc, mouseY - HOT_Y * sc);
+                ctx.scale(sc, sc);
+
+                // Subtle 3D shadow
+                ctx.save();
+                ctx.translate(2.5, 4.5);
+                ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+                ctx.fill(gloveP);
+                ctx.fill(cuffP);
+                ctx.restore();
+
+                // Crisp White Glove Fill
+                ctx.fillStyle = "#FFFFFF";
+                ctx.fill(cuffP);
+                ctx.fill(gloveP);
+
+                // Interactive subtle purple brand tint when hovering buttons/links
+                if (isHoveringInteractive) {
+                    ctx.fillStyle = "rgba(94, 91, 255, 0.08)";
+                    ctx.fill(gloveP);
+                }
+
+                // Dark Contours
+                ctx.strokeStyle = "#0B0B0B";
+                ctx.lineJoin = "round";
+                ctx.lineCap = "round";
+
+                ctx.lineWidth = 1.9;
+                ctx.stroke(cuffP);
+                ctx.lineWidth = 1.1;
+                ctx.stroke(cuffL);
+
+                ctx.lineWidth = 1.9;
+                ctx.stroke(gloveP);
+                ctx.lineWidth = 1.1;
+                ctx.stroke(gloveL);
+
+                ctx.restore();
             }
 
             raf = requestAnimationFrame(frame);
@@ -271,6 +328,8 @@ export default function ParticleCursor({
             hideNativeCursor(false);
             ro.disconnect();
             window.removeEventListener("pointermove", onMove);
+            window.removeEventListener("pointerdown", onDown);
+            window.removeEventListener("pointerup", onUp);
             document.documentElement.removeEventListener(
                 "pointerleave",
                 onWindowLeave

@@ -285,7 +285,7 @@ export const VenomButton: React.FC<VenomButtonProps> = (props) => {
         size = 52,
         strands = 6,
         reach = 95,
-        cursor = "native", // native cursor works with Originkit Confetti Cursor!
+        cursor = "glove",
         autoplay = false,
         onClick,
         className = "",
@@ -510,7 +510,10 @@ export const VenomButton: React.FC<VenomButtonProps> = (props) => {
             if (e.type === "pointercancel") { ptr.inside = false; ptr.last = ptr.upAt; }
         };
 
-        const onLeave = () => { if (!ptr.touch) ptr.inside = false; };
+        const onLeave = () => {
+            if (!ptr.touch) ptr.inside = false;
+            (window as any).__venomCursorActive = false;
+        };
         const onKeyDown = (e: KeyboardEvent) => { if ((e.key === " " || e.key === "Enter") && !reduced) pressed = true; };
         const onKeyUp = () => { pressed = false; };
 
@@ -920,6 +923,54 @@ export const VenomButton: React.FC<VenomButtonProps> = (props) => {
                         hx.stroke();
                     }
                 }
+            }
+
+            if (drawn && present) {
+                (window as any).__venomCursorActive = true;
+                hx.save();
+                hx.translate(hand.x - shape.hot[0] * sc, hand.y - shape.hot[1] * sc);
+                hx.scale(sc, sc);
+                hx.save();
+                hx.translate(2.5, 4.5);
+                hx.fillStyle = "rgba(0,0,0,0.15)";
+                for (const p of shape.shadow) hx.fill(p);
+                hx.restore();
+                hx.fillStyle = "#ffffff";
+                for (const p of shape.fill) hx.fill(p);
+
+                if (coat.some((c) => c > 0.01)) {
+                    const skinHi = cssRgb(mixRgb(goo, shine, 0.33)), skinMid = cssRgb(mixRgb(goo, shine, 0.06)), skinLo = cssRgb(goo);
+                    hx.save();
+                    hx.clip(shape.clip);
+                    for (let g = 0; g < coat.length; g++) {
+                        const c = coat[g];
+                        if (c < 0.01) continue;
+                        const e = c * c * (3 - 2 * c);
+                        const [gx0, gy0] = shape.grips[g];
+
+                        const cx0 = gx0 + (shape.creep[0] - gx0) * e * 0.35, cy0 = gy0 + (shape.creep[1] - gy0) * e * 0.35;
+                        const R = 2.4 + e * 7.5;
+                        hx.beginPath();
+                        for (let k = 0; k <= 28; k++) {
+                            const a = (k / 28) * Math.PI * 2;
+                            const rr = R * (1 + 0.17 * Math.sin(4 * a + g * 1.7 + time * 2.2) + 0.08 * Math.sin(7 * a - time * 3.1 + g));
+                            const x = cx0 + Math.cos(a) * rr, y = cy0 + Math.sin(a) * rr;
+                            if (k === 0) hx.moveTo(x, y); else hx.lineTo(x, y);
+                        }
+                        hx.closePath();
+                        const grad = hx.createRadialGradient(cx0 - R * 0.35, cy0 - R * 0.4, 0, cx0, cy0, R * 1.15);
+                        grad.addColorStop(0, skinHi);
+                        grad.addColorStop(0.28, skinMid);
+                        grad.addColorStop(1, skinLo);
+                        hx.fillStyle = grad;
+                        hx.fill();
+                    }
+                    hx.restore();
+                }
+                hx.strokeStyle = "#0b0b0b";
+                hx.lineJoin = "round";
+                for (const [p, lw] of shape.stroke) { hx.lineWidth = lw; hx.stroke(p); }
+                hx.restore();
             }
 
             if (holding && list.length) {
