@@ -31,7 +31,7 @@ export const About: React.FC = () => {
     <section
       id="about"
       ref={ref}
-      className="relative min-h-screen lg:h-screen lg:max-h-screen flex flex-col justify-between py-8 sm:py-10 md:py-12 px-6 overflow-hidden bg-brand-bg transition-colors duration-300"
+      className="relative z-10 min-h-screen lg:h-screen lg:max-h-screen flex flex-col justify-between py-8 sm:py-10 md:py-12 px-6 overflow-hidden bg-brand-bg transition-colors duration-300"
     >
       {/* 1. Subtle High-Tech Architectural Grid */}
       <div

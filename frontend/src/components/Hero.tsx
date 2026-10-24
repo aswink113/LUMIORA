@@ -66,7 +66,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full min-h-screen lg:h-screen lg:max-h-screen flex items-center pt-24 pb-12 lg:py-0 overflow-hidden bg-transparent"
+      className="relative z-20 w-full min-h-screen lg:h-screen lg:max-h-screen flex items-center pt-24 pb-12 lg:py-0 overflow-visible bg-transparent"
     >
       {/* ── 16:9 Scenic Hero Background Image (Watermark-Free Full Single View) ── */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden select-none">
@@ -78,12 +78,12 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
 
       </div>
 
-      {/* ── Ornamental Page Break Border (Replaces Smoke Effect) ── */}
-      <div className="absolute bottom-0 left-0 right-0 w-full z-30 pointer-events-none select-none flex items-end">
+      {/* ── Ornamental Page Break Border (Centered on the Page Break Line) ── */}
+      <div className="absolute bottom-0 left-0 right-0 w-full z-40 pointer-events-none select-none flex items-center justify-center translate-y-1/2">
         <img
           src="/border.png"
-          alt="Page break border"
-          className="w-full h-auto min-h-[28px] sm:min-h-[42px] md:min-h-[56px] max-h-16 sm:max-h-20 md:max-h-24 lg:max-h-28 object-cover sm:object-fill object-center drop-shadow-[0_-2px_12px_rgba(45,2,122,0.18)]"
+          alt="Page break divider"
+          className="w-full h-auto block select-none drop-shadow-[0_4px_16px_rgba(45,2,122,0.22)]"
         />
       </div>
 
