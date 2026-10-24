@@ -76,10 +76,6 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
           className="w-full h-full object-cover object-center"
         />
 
-        {/* Soft Radial & Linear Veil behind Text for Legibility */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/40 to-transparent w-full lg:w-3/5" />
-        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white/60 to-transparent" />
-
         {/* ── Multi-Layer Smoky Atmosphere Tightly Anchored to the Bottom Edge ── */}
         {/* Layer 1: Smooth Gradient Fade (Lowered to bottom edge) */}
         <div
@@ -108,8 +104,6 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
         />
       </div>
 
-
-
       <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-20">
 
         {/* Left Side Content Column */}
@@ -120,7 +114,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#5E5BFF]/8 border border-[#5E5BFF]/15 text-[#5E5BFF] text-xs font-bold tracking-wider uppercase select-none shadow-sm shadow-[#5E5BFF]/5"
+            className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-transparent border border-[#5E5BFF]/35 text-[#4F46E5] text-xs font-black tracking-wider uppercase select-none shadow-sm"
           >
             <span>
               WEB • APPS • MARKETING
@@ -133,7 +127,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-6xl sm:text-8xl lg:text-8xl font-extrabold text-[#111111] leading-[1.08] tracking-tight font-heading max-w-none"
+              className="text-6xl sm:text-8xl lg:text-8xl font-black text-[#0f172a] leading-[1.08] tracking-tight font-heading max-w-none drop-shadow-[0_2px_15px_rgba(255,255,255,0.7)]"
             >
               WHERE <span className="text-gradient font-black">INNOVATION</span> <br className="hidden sm:inline" />BEGINS
             </motion.h1>
@@ -142,7 +136,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-stone-500 text-base md:text-lg font-medium leading-relaxed max-w-xl"
+              className="text-slate-900 text-base md:text-lg font-bold leading-relaxed max-w-xl drop-shadow-[0_1px_8px_rgba(255,255,255,0.7)]"
             >
               Lumiora designs and develops premium websites, high-performance web & mobile applications, and scalable digital marketing strategies that help ambitious businesses grow faster.
             </motion.p>
@@ -153,21 +147,22 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 py-1 select-none"
+            className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 py-1 select-none bg-transparent"
           >
             <div className="flex items-center gap-2 select-none shrink-0">
               <span className="w-2 h-2 rounded-full bg-[#5E5BFF] animate-pulse" />
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-stone-400 font-mono">
+              <span className="text-xs font-black uppercase tracking-[0.25em] text-slate-900 font-mono drop-shadow-[0_1px_6px_rgba(255,255,255,0.7)]">
                 OUR EXPERTISE
               </span>
             </div>
 
-            <div className="hidden sm:block w-px h-5 bg-stone-300/60" />
+            <div className="hidden sm:block w-px h-5 bg-slate-400/80" />
 
             <div className="h-10 sm:h-12 min-w-[280px] max-w-full flex items-center justify-start overflow-hidden">
               <TextMorph
                 words={expertiseWords}
                 color="#5E5BFF"
+                glass={false}
                 transition={{
                   type: "tween",
                   duration: 0.85,
@@ -176,7 +171,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
                 }}
                 font={{
                   fontFamily: "'Space Grotesk', 'Outfit', sans-serif",
-                  fontWeight: 700,
+                  fontWeight: 800,
                   fontSize: "clamp(1.4rem, 2.5vw, 32px)",
                   textAlign: "left",
                   lineHeight: "1.2em",
@@ -212,7 +207,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
               onClick={() => setActiveModal('portfolio')}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 bg-white/40 hover:bg-white/80 backdrop-blur-md border border-stone-200 text-stone-900 text-sm font-bold rounded-full tracking-wider transition-all duration-300 uppercase shadow-sm"
+              className="px-8 py-4 bg-white/75 hover:bg-white/95 backdrop-blur-md border border-slate-300/80 text-slate-900 text-sm font-black rounded-full tracking-wider transition-all duration-300 uppercase shadow-md"
             >
               Explore Our Work
             </motion.button>
