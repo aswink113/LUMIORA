@@ -83,7 +83,7 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
                 <span className="text-xl font-bold tracking-[0.22em] bg-gradient-to-r from-[#5E5BFF] to-[#A855F7] bg-clip-text text-transparent group-hover:from-[#A855F7] group-hover:to-[#5E5BFF] transition-all duration-500 font-logo uppercase leading-none">
                   LUMIORA
                 </span>
-                <span className="text-[9.5px] font-bold tracking-[0.24em] text-slate-800 group-hover:text-[#5E5BFF] transition-colors uppercase mt-1 drop-shadow-[0_1px_1px_rgba(255,255,255,0.7)]">
+                <span className={`text-[9.5px] font-bold tracking-[0.24em] ${scrolled ? 'text-slate-800' : 'text-indigo-100 drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]'} group-hover:text-[#5E5BFF] transition-colors uppercase mt-1`}>
                   WHERE INNOVATION BEGINS
                 </span>
               </div>
@@ -103,7 +103,7 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                   }}
-                  className="text-sm font-semibold text-stone-600 hover:text-[#5E5BFF] transition-colors hover-target relative group py-1"
+                  className={`text-sm font-semibold ${scrolled ? 'text-stone-600' : 'text-slate-100 drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]'} hover:text-[#5E5BFF] transition-colors hover-target relative group py-1`}
                 >
                   {link.name}
                   <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#5E5BFF] transition-all duration-300 group-hover:w-full" />
@@ -113,7 +113,7 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleAnchorClick(e, link.href)}
-                  className="text-sm font-semibold text-stone-600 hover:text-[#5E5BFF] transition-colors hover-target relative group py-1"
+                  className={`text-sm font-semibold ${scrolled ? 'text-stone-600' : 'text-slate-100 drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]'} hover:text-[#5E5BFF] transition-colors hover-target relative group py-1`}
                 >
                   {link.name}
                   <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#5E5BFF] transition-all duration-300 group-hover:w-full" />
@@ -141,15 +141,15 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
             >
               <motion.span
                 animate={menuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                className="w-6 h-px bg-stone-900 block transition-all"
+                className={`w-6 h-px ${scrolled || menuOpen ? 'bg-stone-900' : 'bg-white shadow-[0_1px_2px_rgba(0,0,0,0.5)]'} block transition-all`}
               />
               <motion.span
                 animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="w-6 h-px bg-stone-900 block transition-all"
+                className={`w-6 h-px ${scrolled || menuOpen ? 'bg-stone-900' : 'bg-white shadow-[0_1px_2px_rgba(0,0,0,0.5)]'} block transition-all`}
               />
               <motion.span
                 animate={menuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                className="w-6 h-px bg-stone-900 block transition-all"
+                className={`w-6 h-px ${scrolled || menuOpen ? 'bg-stone-900' : 'bg-white shadow-[0_1px_2px_rgba(0,0,0,0.5)]'} block transition-all`}
               />
             </button>
           </div>

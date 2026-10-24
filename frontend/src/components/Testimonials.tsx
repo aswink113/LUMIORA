@@ -87,12 +87,14 @@ export const Testimonials = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="inline-block text-xs uppercase tracking-[0.3em] text-pink-400 font-semibold mb-6 px-4 py-1.5 rounded-full border border-pink-500/20 bg-pink-500/5">
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 dark:border-white/20 dark:bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-200 font-mono shadow-xs mb-6">
             Client Love
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold font-heading leading-[1.1] tracking-tight text-text-main">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading leading-[1.1] tracking-tight text-slate-900 dark:text-white">
             What Our{' '}
-            <span className="text-gradient">Clients Say</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
+              Clients Say
+            </span>
           </h2>
         </motion.div>
 

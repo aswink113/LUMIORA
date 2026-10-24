@@ -22,13 +22,15 @@ export const CTA = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
-          <span className="inline-block text-xs uppercase tracking-[0.3em] text-[#5E5BFF] font-semibold mb-8 px-4 py-1.5 rounded-full border border-[#5E5BFF]/25 bg-[#5E5BFF]/8">
-            WHERE INNOVATION BEGINS
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 dark:border-white/20 dark:bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-200 font-mono shadow-xs mb-8">
+            Get In Touch
           </span>
 
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold font-heading leading-[1.0] tracking-tight text-text-main mb-6">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-black font-heading leading-[1.05] tracking-tight text-slate-900 dark:text-white mb-6">
             Ready to Build <br />
-            <span className="text-gradient">With LUMIORA?</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
+              With LUMIORA?
+            </span>
           </h2>
 
           <p className="text-text-muted text-lg md:text-xl max-w-xl mx-auto leading-relaxed mb-12">

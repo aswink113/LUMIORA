@@ -62,11 +62,14 @@ export const Clients = () => {
       `}} />
       {/* Heading */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center mb-12">
-        <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#5E5BFF]">
-          Partnership
+        <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 dark:border-white/20 dark:bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-200 font-mono shadow-xs mb-4">
+          Partnerships
         </span>
-        <h2 className="text-3xl md:text-4xl font-extrabold text-[#111111] mt-3 tracking-tight font-heading">
-          Our Trusted Clients
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white mt-2 tracking-tight font-heading">
+          Our Trusted{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
+            Clients
+          </span>
         </h2>
       </div>
 

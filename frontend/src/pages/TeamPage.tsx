@@ -216,12 +216,14 @@ export const TeamPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
           >
-            <span className="inline-block text-xs uppercase tracking-[0.3em] text-indigo-500 font-semibold mb-4 px-4 py-1 rounded-full border border-indigo-300/40 bg-indigo-50">
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 font-mono shadow-xs mb-4">
               Our Team
             </span>
-            <h1 className="text-4xl md:text-6xl font-bold font-heading leading-[1.0] tracking-tight mb-3" style={{ color: '#1E1B4B' }}>
+            <h1 className="text-4xl md:text-6xl font-black font-heading leading-[1.0] tracking-tight mb-3 text-slate-900">
               The People Behind <br />
-              <span className="text-gradient">LUMIORA</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
+                LUMIORA
+              </span>
             </h1>
             <p className="text-xl max-w-2xl leading-relaxed" style={{ color: '#6366A8' }}>
               A tight-knit crew of designers, engineers, and strategists united by one belief —

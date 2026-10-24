@@ -158,7 +158,7 @@ export const Portfolio = ({ onOpenPlanner }: { onOpenPlanner: (category: string)
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
           <div className="max-w-xl">
-            <span className="text-xs uppercase tracking-[0.3em] text-purple-500 font-semibold mb-3 block">
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 dark:border-white/20 dark:bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-200 font-mono shadow-xs mb-4">
               Case Studies
             </span>
             <h2 className="text-4xl md:text-6xl font-bold font-heading tracking-tight text-text-main mb-4">

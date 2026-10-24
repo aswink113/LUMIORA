@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Sparkles, CheckCircle2, TrendingUp } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, TrendingUp } from 'lucide-react';
 
 interface ServicesSectionProps {
   onOpenPlanner?: (category?: string) => void;
@@ -118,9 +118,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenPlanner 
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 backdrop-blur-md shadow-xs mb-5"
+            className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 backdrop-blur-md shadow-xs mb-5"
           >
-            <Sparkles className="w-3.5 h-3.5 text-indigo-500 animate-spin" style={{ animationDuration: '6s' }} />
             <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 font-mono">
               Core Capabilities
             </span>

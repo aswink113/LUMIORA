@@ -89,7 +89,7 @@ export const Process = () => {
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           className="text-center mb-20"
         >
-          <span className="inline-block text-xs uppercase tracking-[0.3em] text-emerald-400 font-semibold mb-6 px-4 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5">
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 dark:border-white/20 dark:bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-200 font-mono shadow-xs mb-6">
             How We Work
           </span>
           <h2 className="text-4xl md:text-5xl font-bold font-heading leading-[1.1] tracking-tight text-text-main">

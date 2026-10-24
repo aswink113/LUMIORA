@@ -40,11 +40,11 @@ export const WorkPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           >
-            <span className="inline-block text-xs uppercase tracking-[0.3em] text-indigo-500 font-semibold mb-6 px-4 py-1.5 rounded-full border border-indigo-400/25 bg-indigo-500/8">
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 font-mono shadow-xs mb-6">
               Our Work
             </span>
-            <h1 className="text-5xl md:text-7xl font-bold font-heading leading-[1.0] tracking-tight mb-6" style={{ color: '#1E1B4B' }}>
-              Selected <span className="text-gradient">Projects</span>
+            <h1 className="text-5xl md:text-7xl font-black font-heading leading-[1.0] tracking-tight mb-6 text-slate-900">
+              Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">Projects</span>
             </h1>
             <p className="text-xl max-w-2xl leading-relaxed" style={{ color: '#6366A8' }}>
               A curated collection of digital products, platforms, and experiences we've crafted for ambitious brands worldwide.
