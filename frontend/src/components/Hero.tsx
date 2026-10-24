@@ -223,8 +223,8 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
       ctx.save();
       ctx.translate(centerX, centerY);
       const glowGrad = ctx.createRadialGradient(0, 0, 460, 0, 0, 680);
-      glowGrad.addColorStop(0, 'rgba(94, 91, 255, 0.06)');
-      glowGrad.addColorStop(0.5, 'rgba(138, 109, 255, 0.02)');
+      glowGrad.addColorStop(0, 'rgba(168, 85, 247, 0.05)');
+      glowGrad.addColorStop(0.5, 'rgba(94, 91, 255, 0.02)');
       glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
       ctx.beginPath();
       ctx.arc(0, 0, 680, Math.PI, 1.5 * Math.PI);
@@ -232,37 +232,45 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
       ctx.fill();
       ctx.restore();
 
-      // 2. Draw Translucent Metallic Glass 1/4 Ring (Thick fuzzy track like the video)
+      // 2. Draw Ethereal Translucent Glass Orbit Track (High transparency, matching purple theme)
       ctx.save();
       ctx.translate(centerX, centerY);
 
-      // 1/4 Ring path (from 180 to 270 degrees)
+      // Outer soft ambient violet glow track
       ctx.beginPath();
       ctx.arc(0, 0, 580, Math.PI, 1.5 * Math.PI);
-      ctx.lineWidth = 130;
-      ctx.strokeStyle = 'rgba(235, 235, 242, 0.5)';
-      ctx.shadowColor = 'rgba(94, 91, 255, 0.04)';
-      ctx.shadowBlur = 36;
+      ctx.lineWidth = 64;
+      ctx.strokeStyle = 'rgba(168, 85, 247, 0.06)';
+      ctx.shadowColor = 'rgba(168, 85, 247, 0.18)';
+      ctx.shadowBlur = 20;
       ctx.stroke();
 
-      // Sharp inner highlight core for glass tube effect (road center)
+      // Sleek, ultra-translucent frosted glass road (allows landscape image to shine through)
       ctx.beginPath();
       ctx.arc(0, 0, 580, Math.PI, 1.5 * Math.PI);
-      ctx.lineWidth = 80;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.82)';
+      ctx.lineWidth = 36;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
       ctx.stroke();
 
-      // Inner thin highlight strokes
+      // Inner faint lavender energy beam
       ctx.beginPath();
-      ctx.arc(0, 0, 620, Math.PI, 1.5 * Math.PI);
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+      ctx.arc(0, 0, 580, Math.PI, 1.5 * Math.PI);
+      ctx.lineWidth = 14;
+      ctx.strokeStyle = 'rgba(216, 180, 254, 0.15)';
       ctx.stroke();
 
+      // Outer delicate neon holographic rail
       ctx.beginPath();
-      ctx.arc(0, 0, 540, Math.PI, 1.5 * Math.PI);
+      ctx.arc(0, 0, 600, Math.PI, 1.5 * Math.PI);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+      ctx.strokeStyle = 'rgba(192, 132, 252, 0.28)';
+      ctx.stroke();
+
+      // Inner delicate neon holographic rail
+      ctx.beginPath();
+      ctx.arc(0, 0, 560, Math.PI, 1.5 * Math.PI);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(94, 91, 255, 0.22)';
       ctx.stroke();
 
       ctx.restore();
@@ -295,7 +303,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
         // Arc goes backwards from current angle to form a tail
         const tailLength = 0.28;
         ctx.arc(0, 0, icon.radius, icon.angle - tailLength, icon.angle);
-        ctx.lineWidth = 48;
+        ctx.lineWidth = 26;
 
         // Linear gradient to fade tail smoothly
         const startX = Math.cos(icon.angle - tailLength) * icon.radius;
@@ -303,12 +311,12 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
         const endX = Math.cos(icon.angle) * icon.radius;
         const endY = Math.sin(icon.angle) * icon.radius;
         const tailGrad = ctx.createLinearGradient(startX, startY, endX, endY);
-        tailGrad.addColorStop(0, 'rgba(94, 91, 255, 0)');
-        tailGrad.addColorStop(1, `${icon.color}35`); // Glowing translucent tail color
+        tailGrad.addColorStop(0, 'rgba(168, 85, 247, 0)');
+        tailGrad.addColorStop(1, `${icon.color}25`); // Glowing translucent tail color
 
         ctx.strokeStyle = tailGrad;
         ctx.shadowColor = icon.color;
-        ctx.shadowBlur = 24;
+        ctx.shadowBlur = 18;
         ctx.stroke();
         ctx.restore();
 
@@ -380,8 +388,48 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full min-h-screen flex items-center pt-32 pb-20 lg:py-0 overflow-hidden bg-transparent"
+      className="relative w-full min-h-screen lg:h-screen lg:max-h-screen flex items-center pt-24 pb-12 lg:py-0 overflow-hidden bg-transparent"
     >
+      {/* ── 16:9 Scenic Hero Background Image (Watermark-Free Full Single View) ── */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden select-none">
+        <img
+          src="/hero-bg.png"
+          alt=""
+          className="w-full h-full object-cover object-center"
+        />
+
+        {/* Soft Radial & Linear Veil behind Text for Legibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/40 to-transparent w-full lg:w-3/5" />
+        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white/60 to-transparent" />
+
+        {/* ── Multi-Layer Smoky Atmosphere Tightly Anchored to the Bottom Edge ── */}
+        {/* Layer 1: Smooth Gradient Fade (Lowered to bottom edge) */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32 sm:h-44 md:h-52 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to bottom, transparent 0%, rgba(252, 252, 252, 0.15) 30%, rgba(245, 244, 255, 0.55) 60%, rgba(250, 242, 255, 0.9) 85%, #FCFCFC 100%)',
+          }}
+        />
+
+        {/* Layer 2: Ethereal Misty Blur along the bottom boundary */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 backdrop-blur-[2px] sm:backdrop-blur-[3px] pointer-events-none"
+          style={{
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 85%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 85%)',
+          }}
+        />
+
+        {/* Layer 3: Low-Hanging Smoky Fog Cloud at boundary */}
+        <div
+          className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[115vw] h-28 sm:h-36 pointer-events-none rounded-[100%]"
+          style={{
+            background: 'radial-gradient(ellipse at center bottom, rgba(252, 252, 252, 0.95) 0%, rgba(245, 244, 255, 0.6) 40%, transparent 75%)',
+            filter: 'blur(14px)',
+          }}
+        />
+      </div>
+
       {/* Absolute canvas wrapper for full screen bottom-right orbit layout */}
       <div className="absolute right-0 bottom-0 w-full lg:w-[50vw] h-screen pointer-events-none z-10 overflow-hidden">
         <motion.div
@@ -400,7 +448,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
       </div>
 
       {/* Desktop Metrics positioned INSIDE the orbit sweep (bottom-right corner) */}
-      <div className="hidden lg:grid absolute bottom-16 right-16 grid-cols-2 gap-x-12 gap-y-8 max-w-[400px] z-30">
+      <div className="hidden lg:grid absolute bottom-16 right-10 lg:right-12 xl:right-16 grid-cols-2 gap-x-12 gap-y-8 max-w-[400px] z-30">
         {dynamicStats.map((metric) => (
           <CountUp
             key={metric.id}
@@ -411,10 +459,10 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-20">
+      <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-20">
 
         {/* Left Side Content Column */}
-        <div className="lg:col-span-10 flex flex-col items-start text-left space-y-8">
+        <div className="lg:col-span-8 xl:col-span-7 flex flex-col items-start text-left space-y-8">
 
           {/* Sparkle Tagline */}
           <motion.div
@@ -521,7 +569,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
         </div>
 
         {/* Right Side Column (Mobile Metrics only) */}
-        <div className="lg:col-span-2 lg:hidden flex flex-col items-center justify-center relative min-h-[200px] z-20">
+        <div className="lg:col-span-4 xl:col-span-5 lg:hidden flex flex-col items-center justify-center relative min-h-[200px] z-20">
           <div className="grid grid-cols-2 gap-6 w-full max-w-[400px]">
             {dynamicStats.map((metric) => (
               <CountUp

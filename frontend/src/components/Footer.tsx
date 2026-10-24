@@ -53,7 +53,7 @@ export const Footer = () => {
       {/* Subtle ambient light glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[150px] bg-gradient-to-r from-blue-400/10 via-purple-400/10 to-pink-400/10 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8 relative z-10">
+      <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 py-8 relative z-10">
         
         {/* Compact Main Row */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 pb-6 border-b border-indigo-100/60">

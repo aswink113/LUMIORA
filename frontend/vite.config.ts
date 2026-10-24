@@ -5,6 +5,11 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: process.env.GITHUB_ACTIONS ? '/PIXELFORGE/' : './',
+  server: {
+    watch: {
+      ignored: ['**/Gemini_Generated_Image_*'],
+    },
+  },
 })
 
 

@@ -60,7 +60,7 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
             : 'py-6 bg-transparent'
           }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 flex items-center justify-between">
           <div className="flex-shrink-0 z-[60]">
             <Link
               to="/"
