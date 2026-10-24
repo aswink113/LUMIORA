@@ -123,41 +123,30 @@ export const Process = () => {
                   transition={{ duration: 0.8, delay: i * 0.12, ease: [0.76, 0, 0.24, 1] }}
                   className={`relative flex items-start gap-6 md:gap-0 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
                 >
-                  {/* Content card */}
+                  {/* Content - Open Editorial Layout (No Card Box) */}
                   <div className={`w-full md:w-[calc(50%-48px)] ${isEven ? 'md:pr-12 md:text-right' : 'md:pl-12'} pl-16 md:pl-0`}>
-                    <motion.div 
-                      initial={{ borderColor: 'rgba(94, 91, 255, 0.08)', backgroundColor: 'rgba(255, 255, 255, 0.5)', boxShadow: '0 8px 32px 0 rgba(94, 91, 255, 0.05)' }}
-                      whileInView={{ 
-                        borderColor: 'rgba(94, 91, 255, 0.35)', 
-                        backgroundColor: 'rgba(94, 91, 255, 0.04)', 
-                        boxShadow: '0 12px 30px -10px rgba(94, 91, 255, 0.16)' 
-                      }}
-                      viewport={{ margin: "-140px" }}
-                      transition={{ duration: 0.5 }}
-                      className="group relative p-6 rounded-2xl border transition-colors duration-300"
-                    >
-                      <div className={`flex items-center gap-3 mb-3 ${isEven ? 'md:flex-row-reverse' : ''}`}>
-                        <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/15 flex items-center justify-center text-blue-400 flex-shrink-0">
+                    <div className="group relative py-2 transition-colors duration-300">
+                      <div className={`flex items-center gap-3 mb-2 ${isEven ? 'md:flex-row-reverse' : ''}`}>
+                        <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-500 flex-shrink-0">
                           {step.icon}
                         </div>
-                        <span className="text-xs font-mono text-text-muted/40 tracking-widest">{step.step}</span>
+                        <span className="text-xs font-mono font-bold text-indigo-500 tracking-widest">{step.step}</span>
                       </div>
-                      <h3 className="text-text-main font-semibold text-lg font-heading mb-2">{step.title}</h3>
-                      <p className="text-text-muted text-sm leading-relaxed mb-4">{step.desc}</p>
-                      <span className="inline-flex items-center gap-1.5 text-xs text-blue-400/80 font-mono">
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {step.duration}
-                      </span>
-                      <motion.div 
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ margin: "-140px" }}
-                        transition={{ duration: 0.5 }}
-                        className="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-[#5E5BFF]/60 to-transparent origin-center" 
-                      />
-                    </motion.div>
+                      <h3 className="text-text-main font-heading font-extrabold text-xl mb-2 group-hover:text-indigo-600 transition-colors">
+                        {step.title}
+                      </h3>
+                      <p className="text-text-muted text-sm leading-relaxed mb-3 max-w-md inline-block">
+                        {step.desc}
+                      </p>
+                      <div>
+                        <span className="inline-flex items-center gap-1.5 text-xs text-indigo-600 font-mono font-semibold">
+                          <svg className="w-3.5 h-3.5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          {step.duration}
+                        </span>
+                      </div>
+                    </div>
                   </div>
  
                    {/* Centre dot */}

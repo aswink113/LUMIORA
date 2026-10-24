@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Variants } from 'framer-motion';
 import { Navbar } from '../components/Navbar';
 import { ProjectPlannerModal } from '../components/ProjectPlannerModal';
 import { CustomCursor } from '../components/CustomCursor';
 import { Footer } from '../components/Footer';
 import { getTeam, addTeamMember, deleteTeamMember } from '../utils/db';
+import { TeamCard3D } from '../components/TeamCard3D';
 
 interface TeamMember {
   id: string;
@@ -15,30 +15,6 @@ interface TeamMember {
   skills: string[];
   photo_url: string;
 }
-
-const containerVariants: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
-const itemVariants: Variants = {
-  hidden: { 
-    opacity: 0, 
-    y: 50,
-    rotateY: -25,
-  },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    rotateY: 0,
-    transition: { 
-      type: "spring",
-      stiffness: 110,
-      damping: 18,
-      mass: 0.8
-    } 
-  },
-};
 
 // ── Admin Upload Panel ──────────────────────────────────────────────────────
 const AdminPanel = ({ onAdded }: { onAdded: () => void }) => {
@@ -157,131 +133,6 @@ const AdminPanel = ({ onAdded }: { onAdded: () => void }) => {
   );
 };
 
-// ── Portrait Card ───────────────────────────────────────────────────────────
-const PortraitCard = ({ member, onDelete }: { member: TeamMember; onDelete: (id: string) => void }) => {
-  const [hovered, setHovered] = useState(false);
-  const [confirming, setConfirming] = useState(false);
-
-  const handleDelete = async () => {
-    if (!confirming) { setConfirming(true); return; }
-    deleteTeamMember(member.id);
-    onDelete(member.id);
-  };
-
-  const hasDetails = member.name && member.name.trim() !== "";
-
-  return (
-    <motion.div
-      variants={itemVariants}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => { setHovered(false); setConfirming(false); }}
-      className="group relative cursor-none hover-target rounded-3xl overflow-hidden border-[3px] border-[#7C3AED]/70 bg-slate-950/20 backdrop-blur-md transition-all duration-500 shadow-[0_8px_32px_rgba(124,58,237,0.15)]"
-      style={{ aspectRatio: '3/4', transformStyle: 'preserve-3d' }}
-    >
-      {/* 1. Purple Grid Background */}
-      <div 
-        className="absolute inset-0 opacity-15 pointer-events-none z-0" 
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, #7C3AED 1px, transparent 1px), 
-            linear-gradient(to bottom, #7C3AED 1px, transparent 1px)
-          `,
-          backgroundSize: '24px 24px'
-        }} 
-      />
-
-      {/* 2. Glowing Wave/Bezier Curve Background */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-40 z-0" viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path 
-          d="M -50,300 C 50,220 100,380 200,280 C 300,180 320,320 400,220" 
-          stroke="#7C3AED" 
-          strokeWidth="6" 
-          strokeLinecap="round" 
-          filter="drop-shadow(0 0 8px #7C3AED)" 
-        />
-        <path 
-          d="M -50,320 C 60,270 110,400 190,320 C 270,240 330,340 400,250" 
-          stroke="#A78BFA" 
-          strokeWidth="3" 
-          strokeLinecap="round" 
-          opacity="0.6" 
-        />
-      </svg>
-
-      {/* 3. Watermark Corner Logo Grid */}
-      <svg className="absolute top-4 right-4 w-12 h-12 text-[#7C3AED]/20 pointer-events-none z-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20 25 H80 V45 H20 Z" fill="currentColor" opacity="0.3" />
-        <path d="M40 45 L80 85 M40 85 L80 45" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-        <circle cx="20" cy="75" r="10" fill="currentColor" />
-      </svg>
-
-      {/* 4. Portrait employee photo */}
-      <img
-        src={member.photo_url}
-        alt={member.name || "Employee portrait"}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-10"
-      />
-
-      {/* 5. Bottom banner: Semi-transparent purple glassmorphic banner (ONLY rendered if details exist) */}
-      {hasDetails && (
-        <div className="absolute bottom-4 left-4 right-4 bg-purple-950/75 backdrop-blur-md border border-purple-500/30 rounded-xl px-4 py-2.5 shadow-[0_4px_20px_rgba(124,58,237,0.25)] z-20">
-          <h3 className="text-white font-bold text-sm md:text-base font-heading tracking-wide truncate">{member.name}</h3>
-          <p className="text-purple-300 text-xs font-semibold mt-0.5 truncate">{member.role}</p>
-        </div>
-      )}
-
-      {/* 6. Admin Delete Button (Appears on Hover) */}
-      <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30">
-        <button
-          onClick={(e) => { e.stopPropagation(); handleDelete(); }}
-          className={`text-[10px] font-bold px-3 py-1.5 rounded-full border transition-all duration-200 cursor-none hover-target ${
-            confirming
-              ? 'border-red-500 bg-red-500/30 text-red-200'
-              : 'border-white/10 bg-black/60 text-gray-400 hover:text-red-400 hover:border-red-500/50'
-          }`}
-        >
-          {confirming ? 'Confirm Remove?' : 'Remove'}
-        </button>
-      </div>
-
-      {/* Optional Hover Details Overlay (Only for detailed/seeded members) */}
-      {hasDetails && hovered && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="absolute inset-0 bg-slate-950/95 backdrop-blur-md p-6 flex flex-col justify-between z-25"
-        >
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-white font-bold text-lg font-heading">{member.name}</h3>
-              <p className="text-purple-400 text-xs font-semibold">{member.role}</p>
-            </div>
-            <p className="text-gray-300 text-xs leading-relaxed">{member.bio}</p>
-            <div className="flex flex-wrap gap-1.5">
-              {member.skills.map((sk, i) => (
-                <span key={i} className="text-[9px] font-semibold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20">
-                  {sk}
-                </span>
-              ))}
-            </div>
-          </div>
-          
-          <button
-            onClick={handleDelete}
-            className={`w-full text-center text-xs py-2.5 rounded-xl border transition-all duration-200 cursor-none hover-target ${
-              confirming
-                ? 'border-red-500 bg-red-500/20 text-red-400 font-bold'
-                : 'border-white/10 bg-white/5 text-gray-500 hover:text-red-400 hover:border-red-500/30'
-            }`}
-          >
-            {confirming ? 'Confirm Remove?' : 'Remove Member'}
-          </button>
-        </motion.div>
-      )}
-    </motion.div>
-  );
-};
-
 // ── Empty State ─────────────────────────────────────────────────────────────
 const EmptyState = () => (
   <div className="col-span-full flex flex-col items-center justify-center py-28 text-center">
@@ -305,11 +156,21 @@ export const TeamPage = () => {
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
+  const DESIRED_ORDER = ['aswin', 'rashin', 'sreerag', 'ashin'];
+
   const fetchTeam = async () => {
     setLoading(true);
     try {
       const data = getTeam();
-      setMembers(data || []);
+      const sorted = [...(data || [])].sort((a, b) => {
+        const indexA = DESIRED_ORDER.indexOf(a.id.toLowerCase());
+        const indexB = DESIRED_ORDER.indexOf(b.id.toLowerCase());
+        if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+        if (indexA !== -1) return -1;
+        if (indexB !== -1) return 1;
+        return 0;
+      });
+      setMembers(sorted);
     } catch {
       setMembers([]);
     } finally {
@@ -329,7 +190,10 @@ export const TeamPage = () => {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  const handleDelete = (id: string) => setMembers(prev => prev.filter(m => m.id !== id));
+  const handleDelete = (id: string) => {
+    deleteTeamMember(id);
+    setMembers(prev => prev.filter(m => m.id !== id));
+  };
 
   return (
     <div className="min-h-screen cursor-none" style={{ background: 'linear-gradient(150deg, #EBF0FF 0%, #F2EEFF 28%, #F9EEFF 58%, #EBF4FF 100%)', backgroundAttachment: 'fixed' }}>
@@ -371,27 +235,21 @@ export const TeamPage = () => {
       <section className="py-2 px-6 pb-24">
         <div className="max-w-6xl mx-auto">
           {loading ? (
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5" style={{ perspective: 1500 }}>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" style={{ perspective: 1500 }}>
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="rounded-2xl border border-indigo-100 animate-pulse" style={{ aspectRatio: '3/4', background: 'rgba(255,255,255,0.5)' }} />
+                <div key={i} className="rounded-3xl border border-indigo-100 animate-pulse" style={{ aspectRatio: '3/4', background: 'rgba(255,255,255,0.5)' }} />
               ))}
             </div>
           ) : (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
-              style={{ perspective: 1500 }}
-            >
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {members.length === 0 ? (
                 <EmptyState />
               ) : (
-                members.map(m => (
-                  <PortraitCard key={m.id} member={m} onDelete={handleDelete} />
+                members.map((m, i) => (
+                  <TeamCard3D key={m.id} member={m} index={i} onDelete={handleDelete} showAdminActions={true} />
                 ))
               )}
-            </motion.div>
+            </div>
           )}
         </div>
       </section>

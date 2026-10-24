@@ -82,6 +82,15 @@
     transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
   
+  @keyframes textShimmerSweep {
+    0% {
+      background-position: -220% center;
+    }
+    100% {
+      background-position: 220% center;
+    }
+  }
+
   .text-gradient {
     background: linear-gradient(135deg, #5E5BFF 0%, #7B68FF 50%, #A855F7 100%);
     -webkit-background-clip: text;
@@ -224,5 +233,65 @@
   body, button, a, .cursor-none, .hover-target {
     cursor: auto !important;
   }
+}
+
+/* ── Infallible 3D Team Flip Card ── */
+.team-card-3d-wrapper {
+  perspective: 1400px;
+  -webkit-perspective: 1400px;
+}
+
+.team-card-3d-inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.34, 1.25, 0.64, 1), box-shadow 0.4s ease;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 12px 35px -8px rgba(0, 0, 0, 0.25), 0 4px 15px rgba(94, 91, 255, 0.08);
+}
+
+.team-card-3d-wrapper:hover .team-card-3d-inner,
+.team-card-3d-inner.flipped {
+  transform: rotateY(180deg) scale3d(1.025, 1.025, 1);
+  -webkit-transform: rotateY(180deg) scale3d(1.025, 1.025, 1);
+  box-shadow: 0 25px 65px -10px rgba(94, 91, 255, 0.5), 0 0 35px rgba(138, 109, 255, 0.4);
+}
+
+.team-card-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+}
+
+.team-card-face-front {
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+  z-index: 2;
+}
+
+.team-card-face-back {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  z-index: 1;
+}
+
+.team-card-3d-wrapper:hover .team-card-face-front,
+.team-card-3d-inner.flipped .team-card-face-front {
+  pointer-events: none;
+}
+
+.team-card-3d-wrapper:hover .team-card-face-back,
+.team-card-3d-inner.flipped .team-card-face-back {
+  pointer-events: auto;
+  z-index: 3;
 }
 

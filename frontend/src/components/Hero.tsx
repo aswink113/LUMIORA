@@ -1,7 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
+import { motion, useSpring, AnimatePresence } from 'framer-motion';
 import { Sparkles, PhoneCall } from 'lucide-react';
 import { getOrbitIcons, getExpertiseCards, getStats } from '../utils/db';
+import TextMorph from './TextMorph';
 
 // Orbiting Icon definition for Canvas
 interface OrbitIcon {
@@ -96,13 +97,31 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
+  // Clean expertise items without emojis/icons for TextMorph
+  const expertiseWords = useMemo(() => {
+    const cleaned = dynamicCards
+      .map((c) => (typeof c === 'string' ? c : c.text))
+      // Strip leading emojis and symbols (e.g. "🤖 AI Automation" -> "AI Automation")
+      .map((t) => t.replace(/^[^\w\s&+-]+/, '').trim())
+      .filter((t) => t.length > 0);
+
+    return (cleaned.length > 0
+      ? cleaned
+      : [
+          'AI Automation & Intelligence',
+          'FastAPI & Modern React',
+          'Mobile App Development',
+          'Cloud Solutions & DevOps',
+          'Strategic Brand Identity',
+          'UI/UX Product Design',
+        ]
+    ).join('\n');
+  }, [dynamicCards]);
+
   // Mouse positions for interactive parallax and tilt
   const mouseX = useSpring(0, { stiffness: 60, damping: 20 });
   const mouseY = useSpring(0, { stiffness: 60, damping: 20 });
 
-  // Floating service cards spring-based 3D tilt coordinates
-  const cardRotateX = useTransform(mouseY, [-300, 300], [15, -15]);
-  const cardRotateY = useTransform(mouseX, [-300, 300], [-15, 15]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -127,7 +146,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
 
     let animationFrameId: number;
     let rotationAngle = 0;
-    
+
     // Canvas Size Handling using outermost container dimensions
     const handleResize = () => {
       const container = containerRef.current;
@@ -142,7 +161,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
     };
     handleResize();
     window.addEventListener('resize', handleResize);
-    
+
     // Orbiting Icons definitions (all at same speed, distributed along the quadrant)
     const iconSpacing = Math.PI / 10;
     const icons: OrbitIcon[] = dynamicIcons.map((ico, idx) => ({
@@ -216,7 +235,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
       // 2. Draw Translucent Metallic Glass 1/4 Ring (Thick fuzzy track like the video)
       ctx.save();
       ctx.translate(centerX, centerY);
-      
+
       // 1/4 Ring path (from 180 to 270 degrees)
       ctx.beginPath();
       ctx.arc(0, 0, 580, Math.PI, 1.5 * Math.PI);
@@ -245,7 +264,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
       ctx.lineWidth = 1;
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
       ctx.stroke();
-      
+
       ctx.restore();
 
       // 3. Draw Orbiting Icons & Comet Motion Trails
@@ -277,7 +296,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
         const tailLength = 0.28;
         ctx.arc(0, 0, icon.radius, icon.angle - tailLength, icon.angle);
         ctx.lineWidth = 48;
-        
+
         // Linear gradient to fade tail smoothly
         const startX = Math.cos(icon.angle - tailLength) * icon.radius;
         const startY = Math.sin(icon.angle - tailLength) * icon.radius;
@@ -286,7 +305,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
         const tailGrad = ctx.createLinearGradient(startX, startY, endX, endY);
         tailGrad.addColorStop(0, 'rgba(94, 91, 255, 0)');
         tailGrad.addColorStop(1, `${icon.color}35`); // Glowing translucent tail color
-        
+
         ctx.strokeStyle = tailGrad;
         ctx.shadowColor = icon.color;
         ctx.shadowBlur = 24;
@@ -359,21 +378,21 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
   }, [dynamicIcons]);
 
   return (
-    <section 
+    <section
       ref={containerRef}
       className="relative w-full min-h-screen flex items-center pt-32 pb-20 lg:py-0 overflow-hidden bg-transparent"
     >
       {/* Absolute canvas wrapper for full screen bottom-right orbit layout */}
       <div className="absolute right-0 bottom-0 w-full lg:w-[50vw] h-screen pointer-events-none z-10 overflow-hidden">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
           className="absolute inset-0 w-full h-full"
         >
-          <canvas 
-            ref={canvasRef} 
-            className="absolute inset-0 w-full h-full pointer-events-none" 
+          <canvas
+            ref={canvasRef}
+            className="absolute inset-0 w-full h-full pointer-events-none"
           />
           {/* Ambient glow in corner */}
           <div className="absolute right-0 bottom-0 w-[500px] h-[500px] rounded-full bg-[#5E5BFF]/5 blur-3xl pointer-events-none animate-pulse" />
@@ -383,20 +402,20 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
       {/* Desktop Metrics positioned INSIDE the orbit sweep (bottom-right corner) */}
       <div className="hidden lg:grid absolute bottom-16 right-16 grid-cols-2 gap-x-12 gap-y-8 max-w-[400px] z-30">
         {dynamicStats.map((metric) => (
-          <CountUp 
+          <CountUp
             key={metric.id}
-            end={parseInt(metric.value) || 0} 
-            suffix={metric.suffix} 
-            label={metric.label} 
+            end={parseInt(metric.value) || 0}
+            suffix={metric.suffix}
+            label={metric.label}
           />
         ))}
       </div>
 
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-20">
-        
+
         {/* Left Side Content Column */}
         <div className="lg:col-span-10 flex flex-col items-start text-left space-y-8">
-          
+
           {/* Sparkle Tagline */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -404,7 +423,6 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#5E5BFF]/8 border border-[#5E5BFF]/15 text-[#5E5BFF] text-xs font-bold tracking-wider uppercase select-none shadow-sm shadow-[#5E5BFF]/5"
           >
-            <Sparkles className="w-3.5 h-3.5 animate-pulse" />
             <span>
               WEB • APPS • MARKETING
             </span>
@@ -431,12 +449,50 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
             </motion.p>
           </div>
 
+          {/* Dynamic Expertise Text - Pure typography without background */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 py-1 select-none"
+          >
+            <div className="flex items-center gap-2 select-none shrink-0">
+              <span className="w-2 h-2 rounded-full bg-[#5E5BFF] animate-pulse" />
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-stone-400 font-mono">
+                OUR EXPERTISE
+              </span>
+            </div>
+
+            <div className="hidden sm:block w-px h-5 bg-stone-300/60" />
+
+            <div className="h-10 sm:h-12 min-w-[280px] max-w-full flex items-center justify-start overflow-hidden">
+              <TextMorph
+                words={expertiseWords}
+                color="#5E5BFF"
+                transition={{
+                  type: "tween",
+                  duration: 0.85,
+                  delay: 1.2,
+                  ease: "easeInOut",
+                }}
+                font={{
+                  fontFamily: "'Space Grotesk', 'Outfit', sans-serif",
+                  fontWeight: 700,
+                  fontSize: "clamp(1.4rem, 2.5vw, 32px)",
+                  textAlign: "left",
+                  lineHeight: "1.2em",
+                  letterSpacing: "-0.01em",
+                }}
+              />
+            </div>
+          </motion.div>
+
           {/* Action Call to Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-wrap gap-4 items-center w-full z-30"
+            transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-wrap gap-4 items-center w-full z-30 pt-1"
           >
             {/* Primary CTA */}
             <motion.button
@@ -462,41 +518,17 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
               Explore Our Work
             </motion.button>
           </motion.div>
-
-          {/* Floating Glass Service Cards */}
-          <div className="w-full">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-4">OUR EXPERTISE</h4>
-            <motion.div 
-              style={{ rotateX: cardRotateX, rotateY: cardRotateY, transformStyle: 'preserve-3d' }}
-              className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-2xl"
-            >
-              {dynamicCards.map((card, idx) => (
-                <motion.div
-                  key={card.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 + idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  whileHover={{ y: -5, scale: 1.03 }}
-                  className="glass-card px-4 py-3 rounded-2xl flex items-center justify-center text-center cursor-pointer shadow-md select-none"
-                >
-                  <span className="text-xs font-bold text-stone-850 tracking-wide font-heading">
-                    {card.text}
-                  </span>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
         </div>
 
         {/* Right Side Column (Mobile Metrics only) */}
         <div className="lg:col-span-2 lg:hidden flex flex-col items-center justify-center relative min-h-[200px] z-20">
           <div className="grid grid-cols-2 gap-6 w-full max-w-[400px]">
             {dynamicStats.map((metric) => (
-              <CountUp 
+              <CountUp
                 key={metric.id}
-                end={parseInt(metric.value) || 0} 
-                suffix={metric.suffix} 
-                label={metric.label} 
+                end={parseInt(metric.value) || 0}
+                suffix={metric.suffix}
+                label={metric.label}
               />
             ))}
           </div>

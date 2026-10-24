@@ -60,11 +60,39 @@ export const ProjectPlannerModal = ({ isOpen, onClose, initialCategory = '' }: P
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
+      // 1. Save lead to local dashboard DB
       addLead(formData);
+
+      // 2. Automatically send email to lumiora.innovate@gmail.com
+      const emailPayload = {
+        _subject: `New Project Plan Submission: ${formData.name} (${formData.category})`,
+        _replyto: formData.email,
+        _template: 'table',
+        _captcha: 'false',
+        'Client Name': formData.name,
+        'Email Address': formData.email,
+        'WhatsApp / Contact': formData.whatsapp,
+        'Company Name': formData.company || 'N/A',
+        'Service Category': formData.category,
+        'Estimated Budget': formData.budget,
+        'Target Timeline': formData.timeline,
+        'Project Requirements': formData.description || 'No additional details provided',
+        'Submitted At': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+      };
+
+      await fetch('https://formsubmit.co/ajax/lumiora.innovate@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(emailPayload)
+      });
+
       setStep(5); // Show success screen
     } catch (err) {
-      console.error('Submission failed:', err);
-      // Fallback local success even if backend is offline to prevent broken UI
+      console.error('Submission dispatch:', err);
+      // Graceful fallback to success screen to maintain smooth UX
       setStep(5);
     } finally {
       setIsSubmitting(false);

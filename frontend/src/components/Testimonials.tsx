@@ -110,18 +110,16 @@ export const Testimonials = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
-              className="glass-card rounded-3xl p-10 md:p-14 text-center border border-border-color relative overflow-hidden"
+              className="py-12 px-6 md:px-16 text-center relative"
             >
-              {/* Big quote mark */}
-              <span className="absolute top-6 left-10 text-8xl font-serif text-text-muted/10 leading-none select-none">"</span>
-
-              <p className="relative text-xl md:text-2xl text-text-main leading-relaxed font-light max-w-3xl mx-auto mb-10">
+              {/* Elegant quote typography */}
+              <p className="relative text-2xl sm:text-3xl md:text-4xl text-text-main leading-snug font-serif font-light max-w-4xl mx-auto mb-10 tracking-tight">
                 "{testimonials[active].quote}"
               </p>
 
               {/* Avatar + Info */}
               <div className="flex flex-col items-center gap-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center bg-zinc-900 border border-border-color flex-shrink-0">
+                <div className="w-14 h-14 rounded-full overflow-hidden flex items-center justify-center bg-indigo-50 border-2 border-indigo-200/60 shadow-lg flex-shrink-0">
                   {testimonials[active].photo_url ? (
                     <img 
                       src={testimonials[active].photo_url} 
@@ -129,14 +127,14 @@ export const Testimonials = () => {
                       className="w-full h-full object-cover" 
                     />
                   ) : (
-                    <div className={`w-full h-full bg-gradient-to-br ${testimonials[active].gradient} flex items-center justify-center text-white font-semibold text-sm`}>
+                    <div className={`w-full h-full bg-gradient-to-br ${testimonials[active].gradient} flex items-center justify-center text-white font-bold text-base`}>
                       {testimonials[active].avatar}
                     </div>
                   )}
                 </div>
                 <div>
-                  <p className="text-text-main font-semibold text-base">{testimonials[active].author}</p>
-                  <p className="text-text-muted text-sm">{testimonials[active].role}</p>
+                  <p className="text-text-main font-heading font-extrabold text-lg">{testimonials[active].author}</p>
+                  <p className="text-indigo-600 font-mono text-xs uppercase tracking-wider font-semibold">{testimonials[active].role}</p>
                 </div>
               </div>
             </motion.div>

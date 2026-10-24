@@ -1,76 +1,8 @@
 // Native crypto.randomUUID used for id generation
 
-// ─── File-based DB Server Sync Interceptor ─────────────────────────────────────
-if (typeof window !== 'undefined') {
-  const originalSetItem = localStorage.setItem;
-  (localStorage as any)._originalSetItem = originalSetItem;
-  
-  localStorage.setItem = function (key, value) {
-    originalSetItem.apply(this, [key, value]);
-    if (key.startsWith('pf_')) {
-      saveLocalStorageToServer();
-    }
-  };
-}
-
-export const saveLocalStorageToServer = async () => {
-  try {
-    const fullDb: Record<string, any> = {};
-    const keys = ['pf_client_logos', 'pf_team', 'pf_testimonials', 'pf_projects', 'pf_blogs', 'pf_stats', 'pf_orbit_icons', 'pf_expertise_cards', 'pf_leads'];
-    keys.forEach(k => {
-      const val = localStorage.getItem(k);
-      fullDb[k] = val ? JSON.parse(val) : [];
-    });
-    
-    await fetch('/api/db', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(fullDb)
-    });
-  } catch (e) {
-    // Graceful fallback
-  }
-};
-
-export const syncLocalStorageWithServer = async () => {
-  try {
-    const res = await fetch('/api/db');
-    if (res.ok) {
-      const serverDb = await res.json();
-      
-      // If the server database is completely empty (newly created), upload the local seeded storage to it!
-      const isServerEmpty = !serverDb.pf_team || serverDb.pf_team.length === 0;
-      if (isServerEmpty) {
-        saveLocalStorageToServer();
-        return;
-      }
-
-      let hasChanged = false;
-      Object.keys(serverDb).forEach(key => {
-        const serverValStr = JSON.stringify(serverDb[key]);
-        const localVal = localStorage.getItem(key);
-        if (localVal !== serverValStr) {
-          if ((localStorage as any)._originalSetItem) {
-            (localStorage as any)._originalSetItem.apply(localStorage, [key, serverValStr]);
-          } else {
-            localStorage.setItem(key, serverValStr);
-          }
-          hasChanged = true;
-        }
-      });
-      if (hasChanged) {
-        window.dispatchEvent(new Event('storage'));
-      }
-    }
-  } catch (e) {
-    // Graceful fallback
-  }
-};
-
-// Auto-run sync on load
-if (typeof window !== 'undefined') {
-  syncLocalStorageWithServer();
-}
+// Pure client-side static storage (backed by localStorage)
+export const saveLocalStorageToServer = async () => { };
+export const syncLocalStorageWithServer = async () => { };
 
 export interface AdminUser {
   username: string;
@@ -145,36 +77,36 @@ export interface AgencyStat {
 
 const DEFAULT_TEAM: TeamMember[] = [
   {
-    id: "arjun-mehta",
-    name: "Arjun Mehta",
-    role: "Lead Designer",
-    bio: "Arjun is a digital craftsman with 8+ years of experience building immersive brand stories and design systems.",
-    skills: ["Figma", "Webflow", "UI/UX", "Brand Strategy"],
-    photo_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+    id: "aswin",
+    name: "Aswin K",
+    role: "Full-Stack Developer, AI & Data Science Expert",
+    bio: "Specializing in end-to-end full-stack systems, machine learning models, data science pipelines, and intelligent AI architectures.",
+    skills: ["Full Stack", "Data Science", "Machine Learning", "AI Engineering", "Python", "React", "TypeScript"],
+    photo_url: "/employee/aswin.png"
   },
   {
-    id: "sarah-jenkins",
-    name: "Sarah Jenkins",
-    role: "Lead Engineer",
-    bio: "Sarah specializes in React, Node.js, and high-performance WebGL integrations. She makes complex systems fast and reliable.",
-    skills: ["React", "TypeScript", "Node.js", "Three.js"],
-    photo_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80"
+    id: "rashin",
+    name: "Rashin K",
+    role: "Digital Marketer",
+    bio: "Driving data-backed digital campaigns, performance marketing, search visibility, and organic brand traction.",
+    skills: ["SEO", "Performance Marketing", "Meta Ads", "Google Ads", "Growth"],
+    photo_url: "/employee/rashin.png"
   },
   {
-    id: "dev-patel",
-    name: "Dev Patel",
-    role: "Product Strategist",
-    bio: "Dev works with founders to scope, validate, and launch digital products that find product-market fit.",
-    skills: ["Product Strategy", "Agile", "User Research", "Analytics"],
-    photo_url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
+    id: "sreerag",
+    name: "Sreerag P",
+    role: "Full-Stack Developer",
+    bio: "Engineering scalable web applications, fluid user interfaces, and modular full-stack solutions.",
+    skills: ["React", "TypeScript", "Tailwind CSS", "REST APIs", "Modern Web"],
+    photo_url: "/employee/sreerag.png"
   },
   {
-    id: "aisha-rahman",
-    name: "Aisha Rahman",
-    role: "AI Researcher",
-    bio: "Aisha leads our intelligent product design and builds machine learning pipelines for personalized user experiences.",
-    skills: ["Python", "PyTorch", "LLMs", "Prompt Engineering"],
-    photo_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+    id: "ashin",
+    name: "Ashin P",
+    role: "On-Site Marketing",
+    bio: "Leading direct on-ground marketing initiatives, B2B business outreach, client engagements, and brand activations.",
+    skills: ["On-Site Marketing", "B2B Outreach", "Event Marketing", "Client Relations"],
+    photo_url: "/employee/ashin.png"
   }
 ];
 
@@ -308,15 +240,16 @@ const DEFAULT_BLOGS: BlogPost[] = [
 ];
 
 const DEFAULT_STATS: AgencyStat[] = [
-  { id: "stat-1", label: "Projects Delivered", value: "150+", suffix: "", order_index: 0 },
+  { id: "stat-1", label: "Projects Delivered", value: "20+", suffix: "", order_index: 0 },
   { id: "stat-2", label: "Client Satisfaction", value: "98", suffix: "%", order_index: 1 },
-  { id: "stat-3", label: "Years of Excellence", value: "7", suffix: "+", order_index: 2 },
-  { id: "stat-4", label: "Expert Creatives", value: "40", suffix: "+", order_index: 3 }
+  { id: "stat-3", label: "Years of Excellence", value: "2", suffix: "+", order_index: 2 },
+  { id: "stat-4", label: "Expert Creatives", value: "6", suffix: "+", order_index: 3 }
 ];
 
 // Helper to initialize localStorage
 const initDB = () => {
-  if (!localStorage.getItem('pf_team')) {
+  const savedTeam = localStorage.getItem('pf_team');
+  if (!savedTeam || savedTeam.includes('arjun-mehta') || savedTeam.includes('Founder & Lead Architect')) {
     localStorage.setItem('pf_team', JSON.stringify(DEFAULT_TEAM));
   }
   if (!localStorage.getItem('pf_testimonials')) {
@@ -328,7 +261,8 @@ const initDB = () => {
   if (!localStorage.getItem('pf_blogs')) {
     localStorage.setItem('pf_blogs', JSON.stringify(DEFAULT_BLOGS));
   }
-  if (!localStorage.getItem('pf_stats')) {
+  const savedStats = localStorage.getItem('pf_stats');
+  if (!savedStats || savedStats.includes('150+') || savedStats.includes('"value":"7"') || savedStats.includes('"value":"40"') || savedStats.includes('"value":"6+"')) {
     localStorage.setItem('pf_stats', JSON.stringify(DEFAULT_STATS));
   }
   if (!localStorage.getItem('pf_leads')) {
@@ -342,7 +276,16 @@ initDB();
 
 export const getStats = (): AgencyStat[] => {
   initDB();
-  const data = JSON.parse(localStorage.getItem('pf_stats') || '[]');
+  let data: AgencyStat[] = [];
+  try {
+    data = JSON.parse(localStorage.getItem('pf_stats') || '[]');
+  } catch {
+    data = DEFAULT_STATS;
+  }
+  if (!data.length || data.some(s => s.value === '150+' || s.value === '7' || s.value === '40')) {
+    localStorage.setItem('pf_stats', JSON.stringify(DEFAULT_STATS));
+    data = DEFAULT_STATS;
+  }
   return data.sort((a: AgencyStat, b: AgencyStat) => a.order_index - b.order_index);
 };
 
@@ -417,7 +360,7 @@ export const getBlogs = (): BlogPost[] => {
 
 export const addBlog = (title: string, category: string, readTime: string, excerpt: string, featured: boolean, photo_url: string): BlogPost => {
   const blogs = getBlogs();
-  
+
   // Generate slug
   let slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   if (blogs.some(b => b.slug === slug)) {
@@ -454,7 +397,41 @@ export const deleteBlog = (id: string): void => {
 
 export const getTeam = (): TeamMember[] => {
   initDB();
-  return JSON.parse(localStorage.getItem('pf_team') || '[]');
+  const raw = localStorage.getItem('pf_team');
+  let data: TeamMember[] = raw ? JSON.parse(raw) : [];
+
+  let migrated = false;
+  data = data.map(m => {
+    const id = m.id.toLowerCase();
+    if (id === 'aswin' && (!m.role.includes('Data Science') || !m.role.includes('AI'))) {
+      migrated = true;
+      return {
+        ...m,
+        role: 'Full-Stack Developer, AI & Data Science Expert',
+        bio: 'Specializing in end-to-end full-stack systems, machine learning models, data science pipelines, and intelligent AI architectures.',
+        skills: ['Full Stack', 'Data Science', 'Machine Learning', 'AI Engineering', 'Python', 'React', 'TypeScript']
+      };
+    }
+    if (id === 'rashin' && m.role !== 'Digital Marketer') {
+      migrated = true;
+      return { ...m, role: 'Digital Marketer', skills: ['SEO', 'Performance Marketing', 'Meta Ads', 'Google Ads', 'Growth'] };
+    }
+    if (id === 'sreerag' && m.role !== 'Full-Stack Developer') {
+      migrated = true;
+      return { ...m, role: 'Full-Stack Developer', skills: ['React', 'TypeScript', 'Tailwind CSS', 'REST APIs', 'Modern Web'] };
+    }
+    if (id === 'ashin' && m.role !== 'On-Site Marketing') {
+      migrated = true;
+      return { ...m, role: 'On-Site Marketing', skills: ['On-Site Marketing', 'B2B Outreach', 'Event Marketing', 'Client Relations'] };
+    }
+    return m;
+  });
+
+  if (migrated) {
+    localStorage.setItem('pf_team', JSON.stringify(data));
+  }
+
+  return data;
 };
 
 export const addTeamMember = (name: string, role: string, bio: string, skillsStr: string, photo_url: string): TeamMember => {

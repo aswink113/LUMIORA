@@ -37,14 +37,15 @@ const ProjectCard = ({ title, client, category, gradient, year, photo_url, onInq
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 35 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-      className="group relative rounded-3xl overflow-hidden glass-card hover:border-blue-500/35 transition-all duration-500 flex flex-col h-[480px]"
+      transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+      className="group relative flex flex-col cursor-pointer"
+      onClick={onInquire}
     >
-      {/* Cover image or gradient preview with scroll parallax */}
-      <div className="w-full h-64 relative flex items-center justify-center p-8 overflow-hidden bg-zinc-900 border-b border-border-color">
+      {/* Cover image preview with subtle depth and zoom */}
+      <div className="w-full aspect-[16/10] relative rounded-2xl overflow-hidden bg-slate-900 shadow-md">
         <motion.div style={{ y: imageY }} className="absolute inset-0 w-full h-[120%] -top-[10%]">
           {photo_url ? (
             <img 
@@ -53,47 +54,40 @@ const ProjectCard = ({ title, client, category, gradient, year, photo_url, onInq
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
             />
           ) : (
-            <div className={`w-full h-full bg-gradient-to-br ${gradient || 'from-blue-600 via-indigo-600 to-purple-600'}`} />
+            <div className={`w-full h-full bg-gradient-to-br ${gradient || 'from-indigo-600 via-purple-600 to-pink-600'}`} />
           )}
         </motion.div>
-        <div className="absolute inset-0 bg-black/20 mix-blend-overlay" />
         
-        {/* Floating elements inside project cover */}
-        <motion.div 
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.5 }}
-          className="w-full h-full rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 p-6 flex flex-col justify-between shadow-2xl relative z-10"
-        >
-          <span className="text-[10px] uppercase tracking-[0.2em] text-white/50">{client}</span>
-          <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center border border-white/10 text-white hover-target">
-            <ExternalLink className="w-4 h-4" />
-          </div>
-        </motion.div>
-
-        {/* Ambient background glow inside cover */}
-        <div className="absolute w-32 h-32 bg-white/10 rounded-full blur-2xl -bottom-10 -right-10 pointer-events-none" />
-      </div>
-
-      {/* Info */}
-      <div className="p-8 flex flex-col justify-between flex-grow">
-        <div>
-          <div className="flex items-center justify-between text-xs text-text-muted mb-3">
-            <span>{category}</span>
-            <span>{year}</span>
-          </div>
-          <h3 className="text-2xl font-bold font-heading text-text-main group-hover:text-blue-400 transition-colors duration-300">
-            {title}
-          </h3>
+        {/* Subtle overlay on hover */}
+        <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/10 transition-colors duration-300" />
+        
+        {/* Floating pill badge */}
+        <div className="absolute top-4 left-4 z-10">
+          <span className="px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[11px] font-mono uppercase tracking-wider text-white">
+            {client}
+          </span>
         </div>
 
-        {/* Action */}
-        <button
-          onClick={onInquire}
-          className="flex items-center gap-2 text-sm font-semibold text-text-main/80 hover:text-text-main transition-colors group/btn hover-target w-fit mt-4"
-        >
-          Request Case Study
-          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-        </button>
+        <div className="absolute bottom-4 right-4 z-10 w-9 h-9 rounded-full bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+          <ExternalLink className="w-4 h-4" />
+        </div>
+      </div>
+
+      {/* Fluid Editorial Typography Below Media (No Card Box) */}
+      <div className="pt-5 pb-2 flex flex-col justify-between">
+        <div className="flex items-center justify-between text-xs text-text-muted font-mono mb-2">
+          <span className="text-indigo-600 font-semibold">{category}</span>
+          <span>{year}</span>
+        </div>
+        
+        <h3 className="text-xl md:text-2xl font-heading font-extrabold text-text-main group-hover:text-indigo-600 transition-colors duration-300 mb-3">
+          {title}
+        </h3>
+
+        <div className="flex items-center gap-2 text-xs font-semibold text-text-muted group-hover:text-indigo-600 transition-colors">
+          <span>Explore Case Study</span>
+          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+        </div>
       </div>
     </motion.div>
   );

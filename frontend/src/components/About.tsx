@@ -1,154 +1,142 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { About3DCanvas } from './About3DCanvas';
+import { Sparkles, ArrowRight } from 'lucide-react';
 
 const MotionLink = motion(Link);
 
-const pillars = [
-  {
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-          d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-      </svg>
-    ),
-    title: 'Strategic Vision',
-    desc: 'Every pixel we craft is backed by research-driven strategy and deep industry insight.',
-  },
-  {
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-          d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
-    title: 'Speed & Precision',
-    desc: 'We move fast without compromising craft — delivering on time, every time.',
-  },
-  {
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-      </svg>
-    ),
-    title: 'Trusted Partnership',
-    desc: 'We become an extension of your team — transparent, accountable, and fully invested.',
-  },
-];
-
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] as const } },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] as const } },
 };
 
-export const About = () => {
+export const About: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: true, margin: '-60px' });
 
-  // Scroll Parallax for background elements
+  // Parallax animation for ambient background
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"]
+    offset: ['start end', 'end start'],
   });
-  const blobY = useTransform(scrollYProgress, [0, 1], [-100, 100]);
+  const blobY = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
   return (
-    <section id="about" ref={ref} className="relative py-28 overflow-hidden bg-brand-bg transition-colors duration-300">
-      {/* Background grid using dynamic theme RGB value */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
+    <section
+      id="about"
+      ref={ref}
+      className="relative min-h-screen lg:h-screen lg:max-h-screen flex flex-col justify-between py-8 sm:py-10 md:py-12 px-6 overflow-hidden bg-brand-bg transition-colors duration-300"
+    >
+      {/* 1. Subtle High-Tech Architectural Grid */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-20"
         style={{
-          backgroundImage: `linear-gradient(rgba(var(--cursor-color), 0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--cursor-color), 0.015) 1px, transparent 1px)`,
-          backgroundSize: '80px 80px'
+          backgroundImage: `
+            radial-gradient(circle at 50% 50%, rgba(94, 91, 255, 0.08) 0%, transparent 70%),
+            linear-gradient(to right, rgba(94, 91, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(94, 91, 255, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '100% 100%, 72px 72px, 72px 72px',
         }}
       />
 
-      {/* Ambient blob with scroll parallax */}
-      <motion.div 
+      {/* 2. Floating Ambient Glow Spheres with Scroll Parallax */}
+      <motion.div
         style={{ y: blobY }}
-        className="absolute right-0 top-1/4 w-[600px] h-[600px] bg-purple-700/10 rounded-full blur-[180px] pointer-events-none" 
+        className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-b from-indigo-500/10 via-purple-500/5 to-transparent rounded-full blur-[160px] pointer-events-none"
       />
 
-      <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
-        {/* Left: Text content */}
+      {/* ── 3. Interactive 3D Innovation Core Centered Directly in Background ── */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        <About3DCanvas className="w-full h-full opacity-35" />
+      </div>
+
+      {/* Top breathing room */}
+      <div className="h-2 sm:h-4" />
+
+      {/* ── Main Content: Beautiful Heading, Concise Manifesto, CTA (Single View) ── */}
+      <div className="max-w-4xl mx-auto w-full text-center relative z-10 my-auto flex flex-col items-center justify-center">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
+          className="flex flex-col items-center w-full"
         >
-          <motion.span
-            variants={itemVariants}
-            className="inline-block text-xs uppercase tracking-[0.3em] text-blue-400 font-semibold mb-6 px-4 py-1.5 rounded-full border border-blue-500/20 bg-blue-500/5"
-          >
-            Who We Are
-          </motion.span>
+          {/* Pill Badge */}
+          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-4 sm:mb-5">
+            <span className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-indigo-200/70 bg-white/80 backdrop-blur-md text-indigo-600 text-xs font-bold uppercase tracking-widest shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-500 animate-spin" style={{ animationDuration: '6s' }} />
+              Who We Are
+            </span>
+          </motion.div>
 
+          {/* Balanced, Ultra-Beautiful Headline */}
           <motion.h2
             variants={itemVariants}
-            className="text-4xl md:text-5xl font-bold font-heading leading-[1.1] tracking-tight text-text-main mb-6"
+            className="font-heading font-black tracking-[-0.03em] leading-[1.08] text-slate-900 max-w-4xl mx-auto mb-4 sm:mb-5 text-3xl sm:text-5xl md:text-6xl lg:text-[62px]"
           >
-            A Consultancy Built for{' '}
-            <span className="text-gradient">Ambitious Brands</span>
+            <span className="block">
+              A Consultancy <span className="whitespace-nowrap">Built for</span>
+            </span>
+            <span className="block mt-1 sm:mt-2 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 filter drop-shadow-sm">
+              Ambitious Brands
+            </span>
           </motion.h2>
 
+          {/* Concise, Elegant Manifesto Paragraph */}
           <motion.p
             variants={itemVariants}
-            className="text-text-muted text-lg leading-relaxed mb-6"
+            className="text-stone-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-5xl mx-auto font-normal mb-6 sm:mb-7"
           >
-            Lumiora is where innovation begins. We specialize across Web, Apps, and Marketing — partnering with ambitious startups, scale-ups, and enterprises to design, engineer, and launch transformative digital experiences that drive market leadership.
+            Lumiora is a digital innovation partner for ambitious startups and scale-ups. We bring together{' '}
+            <span className="text-stone-900 font-semibold underline decoration-indigo-400/60 decoration-2 underline-offset-4">
+              Strategic Insight, Thoughtful Design, Advanced Engineering, and Performance-Focused Marketing
+            </span>{' '}
+            to create digital experiences that help businesses grow and compete. From shaping a clear vision to building and launching web and mobile products, our team works closely with yours at every stage. Through collaborative partnerships, agile delivery, and a commitment to quality, we turn complex ideas into reliable solutions built for lasting impact.
           </motion.p>
 
-          <motion.p
-            variants={itemVariants}
-            className="text-text-muted/80 text-base leading-relaxed mb-10"
-          >
-            Founded by a team of product builders, designers, and growth marketers, we operate at the intersection of creative strategy, high-performance technology, and measurable impact.
-          </motion.p>
-
-          <MotionLink
-            variants={itemVariants}
-            to="/team"
-            className="inline-flex items-center gap-3 text-sm font-semibold text-text-main border border-border-color px-6 py-3 rounded-full hover:border-blue-500/50 hover:text-blue-400 transition-all duration-300 hover-target cursor-none"
-          >
-            Meet the Team
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </MotionLink>
-        </motion.div>
-
-        {/* Right: Pillars */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="flex flex-col gap-5"
-        >
-          {pillars.map((p, i) => (
-            <motion.div
-              key={i}
-              variants={itemVariants}
-              className="group relative flex items-start gap-5 p-6 rounded-2xl border border-border-color bg-card-bg hover:bg-card-hover-bg hover:border-blue-500/20 transition-all duration-500"
+          {/* Interactive "Meet the Team" Button */}
+          <motion.div variants={itemVariants} className="mb-2">
+            <MotionLink
+              to="/team"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className="group relative inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-slate-900 text-white font-semibold text-sm shadow-[0_10px_25px_rgba(94,91,255,0.22)] hover:shadow-[0_15px_35px_rgba(94,91,255,0.38)] transition-all duration-300 overflow-hidden cursor-pointer"
             >
-              {/* Icon */}
-              <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/15 flex items-center justify-center text-blue-400 group-hover:bg-blue-600/20 transition-colors duration-300">
-                {p.icon}
-              </div>
-              <div>
-                <h3 className="text-text-main font-semibold text-base mb-1.5">{p.title}</h3>
-                <p className="text-text-muted text-sm leading-relaxed">{p.desc}</p>
-              </div>
-              {/* Bottom glow line on hover */}
-              <div className="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-            </motion.div>
-          ))}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+              <span className="relative z-10 flex items-center gap-2">
+                Meet the Team
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
+            </MotionLink>
+          </motion.div>
         </motion.div>
+      </div>
+
+      {/* ── Bottom Single-View Metrics Strip (Integrated cleanly at the base) ── */}
+      <div className="w-full max-w-4xl mx-auto pt-5 pb-2 border-t border-indigo-500/10 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center z-10 relative">
+        <div>
+          <div className="font-heading font-black text-2xl sm:text-3xl text-indigo-600 tracking-tight">20+</div>
+          <div className="text-[11px] text-stone-500 font-medium uppercase tracking-wider font-mono mt-0.5">Projects Delivered</div>
+        </div>
+        <div>
+          <div className="font-heading font-black text-2xl sm:text-3xl text-purple-600 tracking-tight">98%</div>
+          <div className="text-[11px] text-stone-500 font-medium uppercase tracking-wider font-mono mt-0.5">Client Satisfaction</div>
+        </div>
+        <div>
+          <div className="font-heading font-black text-2xl sm:text-3xl text-cyan-600 tracking-tight">2+</div>
+          <div className="text-[11px] text-stone-500 font-medium uppercase tracking-wider font-mono mt-0.5">Years of Excellence</div>
+        </div>
+        <div>
+          <div className="font-heading font-black text-2xl sm:text-3xl text-pink-600 tracking-tight">6+</div>
+          <div className="text-[11px] text-stone-500 font-medium uppercase tracking-wider font-mono mt-0.5">Expert Creatives</div>
+        </div>
       </div>
     </section>
   );

@@ -55,16 +55,15 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled 
-            ? 'py-4 bg-[#FCFCFC]/70 backdrop-blur-xl border-b border-[#5E5BFF]/10 shadow-[0_4px_30px_rgba(94,91,255,0.03)]' 
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
+            ? 'py-4 bg-[#FCFCFC]/70 backdrop-blur-xl border-b border-[#5E5BFF]/10 shadow-[0_4px_30px_rgba(94,91,255,0.03)]'
             : 'py-6 bg-transparent'
-        }`}
+          }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <div className="flex-shrink-0 z-[60]">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               onClick={(e) => {
                 if (location.pathname === '/') {
                   e.preventDefault();
@@ -74,17 +73,17 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
               className="hover-target flex items-center gap-3 group"
             >
               {/* Actual Company Logo Image */}
-              <img 
-                src="/logo.png" 
-                alt="Lumiora Logo" 
-                className="w-9 h-9 object-contain group-hover:rotate-[360deg] transition-transform duration-700" 
+              <img
+                src="/logo.png"
+                alt="Lumiora Logo"
+                className="w-9 h-9 object-contain group-hover:rotate-[360deg] transition-transform duration-700"
               />
               <div className="flex flex-col">
                 <span className="text-xl font-bold tracking-[0.22em] bg-gradient-to-r from-[#5E5BFF] to-[#A855F7] bg-clip-text text-transparent group-hover:from-[#A855F7] group-hover:to-[#5E5BFF] transition-all duration-500 font-logo uppercase leading-none">
                   LUMIORA
                 </span>
                 <span className="text-[8.5px] font-semibold tracking-[0.22em] text-stone-400 group-hover:text-[#5E5BFF] transition-colors uppercase mt-0.5">
-                  WEB • APPS • MARKETING
+                  WHERE INNOVATION BIGINS
                 </span>
               </div>
             </Link>
@@ -120,8 +119,8 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
                 </a>
               )
             ))}
-            
-            <button 
+
+            <button
               onClick={onOpenPlanner}
               className="px-6 py-2.5 text-white rounded-full font-bold transition-all duration-300 hover-target ml-2 text-sm cursor-none hover:scale-105 active:scale-95 flex items-center gap-1 group/btn"
               style={{
@@ -136,19 +135,19 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
 
           {/* Mobile Menu Toggle */}
           <div className="flex items-center gap-4 md:hidden z-[60]">
-            <button 
+            <button
               className="w-10 h-10 flex flex-col justify-center items-center gap-1.5 hover-target"
               onClick={() => setMenuOpen(!menuOpen)}
             >
-              <motion.span 
+              <motion.span
                 animate={menuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
                 className="w-6 h-px bg-stone-900 block transition-all"
               />
-              <motion.span 
+              <motion.span
                 animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
                 className="w-6 h-px bg-stone-900 block transition-all"
               />
-              <motion.span 
+              <motion.span
                 animate={menuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
                 className="w-6 h-px bg-stone-900 block transition-all"
               />
@@ -207,7 +206,7 @@ export const Navbar = ({ onOpenPlanner }: { onOpenPlanner: () => void }) => {
                   </motion.a>
                 )
               ))}
-              <motion.button 
+              <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}

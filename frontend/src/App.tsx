@@ -7,7 +7,6 @@ import { Loader } from './components/Loader';
 import { CustomCursor } from './components/CustomCursor';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { StatsBar } from './components/StatsBar';
 import { About } from './components/About';
 import { ServicesSection } from './components/ServicesSection';
 import { Process } from './components/Process';
@@ -23,11 +22,7 @@ import { TeamPage } from './pages/TeamPage';
 import { AdminPage } from './pages/AdminPage';
 
 
-// Home page — full single-page layout
-let hasLoadedOnce = false;
-
 function HomePage() {
-  const [loading, setLoading] = useState(!hasLoadedOnce);
   const [plannerOpen, setPlannerOpen] = useState(false);
   const [plannerCategory, setPlannerCategory] = useState('');
   const lenisRef = useRef<Lenis | null>(null);
@@ -61,7 +56,7 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    if (!loading && window.location.hash) {
+    if (window.location.hash) {
       const id = window.location.hash.substring(1);
       const element = document.getElementById(id);
       if (element) {
@@ -75,7 +70,7 @@ function HomePage() {
         return () => clearTimeout(timer);
       }
     }
-  }, [loading]);
+  }, []);
 
   const openPlanner = (category = '') => {
     setPlannerCategory(category);
@@ -90,32 +85,27 @@ function HomePage() {
         onClose={() => setPlannerOpen(false)}
         initialCategory={plannerCategory}
       />
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <Loader key="loader" onLoadingComplete={() => { setLoading(false); hasLoadedOnce = true; }} />
-        ) : (
-          <div key="content">
-            <Navbar onOpenPlanner={() => openPlanner()} />
-            <main>
-              <Hero onOpenPlanner={() => openPlanner()} />
-              <StatsBar />
-              <About />
-              <ServicesSection />
-              <Clients />
-              <Process />
-              <Portfolio onOpenPlanner={openPlanner} />
-              <Testimonials />
-              <CTA onOpenPlanner={() => openPlanner()} />
-            </main>
-            <Footer />
-          </div>
-        )}
-      </AnimatePresence>
+      <div>
+        <Navbar onOpenPlanner={() => openPlanner()} />
+        <main>
+          <Hero onOpenPlanner={() => openPlanner()} />
+          <About />
+          <ServicesSection onOpenPlanner={openPlanner} />
+          <Clients />
+          <Process />
+          <Portfolio onOpenPlanner={openPlanner} />
+          <Testimonials />
+          <CTA onOpenPlanner={() => openPlanner()} />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
 
 function App() {
+  // Opening animation only plays on page refresh or initial site startup
+  const [appLoading, setAppLoading] = useState(true);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -125,6 +115,12 @@ function App() {
 
   return (
     <>
+      <AnimatePresence mode="wait">
+        {appLoading && (
+          <Loader key="app-loader" onLoadingComplete={() => setAppLoading(false)} />
+        )}
+      </AnimatePresence>
+
       <motion.div 
         className="fixed top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 origin-[0%] z-[9999]" 
         style={{ scaleX }}
