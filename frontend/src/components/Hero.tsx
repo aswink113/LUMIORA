@@ -1,96 +1,21 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { motion, useSpring, AnimatePresence } from 'framer-motion';
 import { Sparkles, PhoneCall } from 'lucide-react';
-import { getOrbitIcons, getExpertiseCards, getStats } from '../utils/db';
+import { getExpertiseCards } from '../utils/db';
 import TextMorph from './TextMorph';
-
-// Orbiting Icon definition for Canvas
-interface OrbitIcon {
-  emoji: string;
-  label: string;
-  color: string;
-  speed: number;
-  angle: number;
-  radius: number;
-  size: number;
-  iconUrl?: string;
-  iconImg?: HTMLImageElement;
-}
-
-// CountUp component using standard requestAnimationFrame for clean animation when in view
-const CountUp: React.FC<{ end: number; suffix: string; label: string }> = ({ end, suffix, label }) => {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const started = useRef(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !started.current) {
-          started.current = true;
-          let startTimestamp: number | null = null;
-          const duration = 2000; // 2 seconds
-
-          const step = (timestamp: number) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            // Ease out quad
-            const easeProgress = progress * (2 - progress);
-            setCount(Math.floor(easeProgress * end));
-
-            if (progress < 1) {
-              window.requestAnimationFrame(step);
-            } else {
-              setCount(end);
-            }
-          };
-          window.requestAnimationFrame(step);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, [end]);
-
-  return (
-    <div ref={ref} className="flex flex-col items-start border-l-2 border-[#5E5BFF]/10 pl-6 py-2">
-      <span className="text-4xl md:text-5xl font-extrabold text-[#111111] tracking-tight font-heading">
-        {count}{suffix}
-      </span>
-      <span className="text-xs font-semibold text-stone-500 uppercase tracking-wider mt-1">
-        {label}
-      </span>
-    </div>
-  );
-};
 
 export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
   const [activeModal, setActiveModal] = useState<'project' | 'portfolio' | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
   // Dynamic content loaded from local storage database
-  const [dynamicIcons, setDynamicIcons] = useState<any[]>([]);
   const [dynamicCards, setDynamicCards] = useState<any[]>([]);
-  const [dynamicStats, setDynamicStats] = useState<any[]>([]);
 
   useEffect(() => {
-    setDynamicIcons(getOrbitIcons());
     setDynamicCards(getExpertiseCards());
-    setDynamicStats(getStats());
 
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'pf_orbit_icons') {
-        setDynamicIcons(getOrbitIcons());
-      } else if (e.key === 'pf_expertise_cards') {
+      if (e.key === 'pf_expertise_cards') {
         setDynamicCards(getExpertiseCards());
-      } else if (e.key === 'pf_stats') {
-        setDynamicStats(getStats());
       }
     };
     window.addEventListener('storage', handleStorageChange);
@@ -137,253 +62,6 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // High performance Canvas centerpiece loop
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let rotationAngle = 0;
-
-    // Canvas Size Handling using outermost container dimensions
-    const handleResize = () => {
-      const container = containerRef.current;
-      if (container) {
-        const width = window.innerWidth >= 1024 ? container.clientWidth * 0.5 : container.clientWidth;
-        const height = container.clientHeight || window.innerHeight;
-        canvas.width = width * window.devicePixelRatio;
-        canvas.height = height * window.devicePixelRatio;
-        canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
-      }
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    // Orbiting Icons definitions (all at same speed, distributed along the quadrant)
-    const iconSpacing = Math.PI / 10;
-    const icons: OrbitIcon[] = dynamicIcons.map((ico, idx) => ({
-      emoji: ico.emoji,
-      label: ico.label,
-      color: ico.color,
-      iconUrl: ico.iconUrl,
-      speed: 0.0015,
-      angle: Math.PI + idx * iconSpacing,
-      radius: 580,
-      size: 46
-    }));
-
-    // Pre-load uploaded icon images
-    icons.forEach(icon => {
-      if (icon.iconUrl) {
-        const img = new Image();
-        img.src = icon.iconUrl;
-        icon.iconImg = img;
-      }
-    });
-
-    // Background particles
-    const particles = Array.from({ length: 25 }, () => ({
-      x: Math.random() * 400,
-      y: Math.random() * 400,
-      radius: Math.random() * 2 + 1,
-      opacity: Math.random() * 0.4 + 0.1,
-      speed: Math.random() * 0.3 + 0.1,
-    }));
-
-    const render = () => {
-      const dpr = window.devicePixelRatio;
-      const w = canvas.width;
-      const h = canvas.height;
-
-      ctx.clearRect(0, 0, w, h);
-      ctx.save();
-      ctx.scale(dpr, dpr);
-
-      // Center exactly at bottom right of the canvas element
-      const centerX = (w / dpr);
-      const centerY = (h / dpr);
-
-      // Slowly rotate background particles / glows slightly
-      rotationAngle += 0.002;
-
-      // Draw floating background particles
-      particles.forEach((p, idx) => {
-        p.y -= p.speed;
-        if (p.y < 0) p.y = h / dpr;
-        ctx.beginPath();
-        ctx.arc((p.x + idx * 10) % (w / dpr), p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(94, 91, 255, ${p.opacity})`;
-        ctx.fill();
-      });
-
-      // 1. Draw Ring Glow (Shadow / Aurora underlay centered at bottom-right)
-      ctx.save();
-      ctx.translate(centerX, centerY);
-      const glowGrad = ctx.createRadialGradient(0, 0, 460, 0, 0, 680);
-      glowGrad.addColorStop(0, 'rgba(168, 85, 247, 0.05)');
-      glowGrad.addColorStop(0.5, 'rgba(94, 91, 255, 0.02)');
-      glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      ctx.beginPath();
-      ctx.arc(0, 0, 680, Math.PI, 1.5 * Math.PI);
-      ctx.fillStyle = glowGrad;
-      ctx.fill();
-      ctx.restore();
-
-      // 2. Draw Ethereal Translucent Glass Orbit Track (High transparency, matching purple theme)
-      ctx.save();
-      ctx.translate(centerX, centerY);
-
-      // Outer soft ambient violet glow track
-      ctx.beginPath();
-      ctx.arc(0, 0, 580, Math.PI, 1.5 * Math.PI);
-      ctx.lineWidth = 64;
-      ctx.strokeStyle = 'rgba(168, 85, 247, 0.06)';
-      ctx.shadowColor = 'rgba(168, 85, 247, 0.18)';
-      ctx.shadowBlur = 20;
-      ctx.stroke();
-
-      // Sleek, ultra-translucent frosted glass road (allows landscape image to shine through)
-      ctx.beginPath();
-      ctx.arc(0, 0, 580, Math.PI, 1.5 * Math.PI);
-      ctx.lineWidth = 36;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-      ctx.stroke();
-
-      // Inner faint lavender energy beam
-      ctx.beginPath();
-      ctx.arc(0, 0, 580, Math.PI, 1.5 * Math.PI);
-      ctx.lineWidth = 14;
-      ctx.strokeStyle = 'rgba(216, 180, 254, 0.15)';
-      ctx.stroke();
-
-      // Outer delicate neon holographic rail
-      ctx.beginPath();
-      ctx.arc(0, 0, 600, Math.PI, 1.5 * Math.PI);
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(192, 132, 252, 0.28)';
-      ctx.stroke();
-
-      // Inner delicate neon holographic rail
-      ctx.beginPath();
-      ctx.arc(0, 0, 560, Math.PI, 1.5 * Math.PI);
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(94, 91, 255, 0.22)';
-      ctx.stroke();
-
-      ctx.restore();
-
-      // 3. Draw Orbiting Icons & Comet Motion Trails
-      icons.forEach((icon) => {
-        icon.angle += icon.speed;
-        if (icon.angle > 1.5 * Math.PI) {
-          icon.angle = Math.PI;
-        }
-
-        // Smooth fade-in / fade-out alpha based on angle
-        let alpha = 1;
-        const fadeThreshold = 0.025 * Math.PI;
-        const startAngle = Math.PI;
-        const endAngle = 1.5 * Math.PI;
-
-        if (icon.angle - startAngle < fadeThreshold) {
-          alpha = (icon.angle - startAngle) / fadeThreshold;
-        } else if (endAngle - icon.angle < fadeThreshold) {
-          alpha = (endAngle - icon.angle) / fadeThreshold;
-        }
-        alpha = Math.max(0, Math.min(1, alpha));
-
-        // Draw Comet Motion Trail behind the icon
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        ctx.translate(centerX, centerY);
-        ctx.beginPath();
-        // Arc goes backwards from current angle to form a tail
-        const tailLength = 0.28;
-        ctx.arc(0, 0, icon.radius, icon.angle - tailLength, icon.angle);
-        ctx.lineWidth = 26;
-
-        // Linear gradient to fade tail smoothly
-        const startX = Math.cos(icon.angle - tailLength) * icon.radius;
-        const startY = Math.sin(icon.angle - tailLength) * icon.radius;
-        const endX = Math.cos(icon.angle) * icon.radius;
-        const endY = Math.sin(icon.angle) * icon.radius;
-        const tailGrad = ctx.createLinearGradient(startX, startY, endX, endY);
-        tailGrad.addColorStop(0, 'rgba(168, 85, 247, 0)');
-        tailGrad.addColorStop(1, `${icon.color}25`); // Glowing translucent tail color
-
-        ctx.strokeStyle = tailGrad;
-        ctx.shadowColor = icon.color;
-        ctx.shadowBlur = 18;
-        ctx.stroke();
-        ctx.restore();
-
-        // Calculate orbit position around the bottom-right center
-        const orbitX = centerX + Math.cos(icon.angle) * icon.radius;
-        const orbitY = centerY + Math.sin(icon.angle) * icon.radius;
-
-        // Draw Icon Glass Capsule
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        ctx.translate(orbitX, orbitY);
-
-        // Soft outer neon glow
-        const itemGlow = ctx.createRadialGradient(0, 0, 0, 0, 0, icon.size / 2 + 10);
-        itemGlow.addColorStop(0, `${icon.color}2A`);
-        itemGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.beginPath();
-        ctx.arc(0, 0, icon.size / 2 + 10, 0, Math.PI * 2);
-        ctx.fillStyle = itemGlow;
-        ctx.fill();
-
-        // Capsule Body (Glassmorphism card effect on canvas)
-        ctx.beginPath();
-        ctx.arc(0, 0, icon.size / 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-        ctx.shadowColor = 'rgba(94, 91, 255, 0.1)';
-        ctx.shadowBlur = 10;
-        ctx.fill();
-
-        // Capsule border
-        ctx.beginPath();
-        ctx.arc(0, 0, icon.size / 2, 0, Math.PI * 2);
-        ctx.lineWidth = 1.5;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-        ctx.stroke();
-
-        // Draw Icon inside capsule (uploaded image or emoji fallback)
-        if (icon.iconImg && icon.iconImg.complete && icon.iconImg.naturalWidth > 0) {
-          const imgSize = icon.size * 0.78;
-          ctx.save();
-          ctx.beginPath();
-          ctx.arc(0, 0, icon.size / 2 - 1.5, 0, Math.PI * 2);
-          ctx.clip();
-          ctx.drawImage(icon.iconImg, -imgSize / 2, -imgSize / 2, imgSize, imgSize);
-          ctx.restore();
-        } else {
-          ctx.font = `${icon.size * 0.45}px sans-serif`;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.shadowBlur = 0;
-          ctx.fillText(icon.emoji, 0, 0);
-        }
-
-        ctx.restore();
-      });
-
-      ctx.restore();
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [dynamicIcons]);
 
   return (
     <section
@@ -430,34 +108,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
         />
       </div>
 
-      {/* Absolute canvas wrapper for full screen bottom-right orbit layout */}
-      <div className="absolute right-0 bottom-0 w-full lg:w-[50vw] h-screen pointer-events-none z-10 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-          className="absolute inset-0 w-full h-full"
-        >
-          <canvas
-            ref={canvasRef}
-            className="absolute inset-0 w-full h-full pointer-events-none"
-          />
-          {/* Ambient glow in corner */}
-          <div className="absolute right-0 bottom-0 w-[500px] h-[500px] rounded-full bg-[#5E5BFF]/5 blur-3xl pointer-events-none animate-pulse" />
-        </motion.div>
-      </div>
 
-      {/* Desktop Metrics positioned INSIDE the orbit sweep (bottom-right corner) */}
-      <div className="hidden lg:grid absolute bottom-16 right-10 lg:right-12 xl:right-16 grid-cols-2 gap-x-12 gap-y-8 max-w-[400px] z-30">
-        {dynamicStats.map((metric) => (
-          <CountUp
-            key={metric.id}
-            end={parseInt(metric.value) || 0}
-            suffix={metric.suffix}
-            label={metric.label}
-          />
-        ))}
-      </div>
 
       <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-20">
 
@@ -568,19 +219,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
           </motion.div>
         </div>
 
-        {/* Right Side Column (Mobile Metrics only) */}
-        <div className="lg:col-span-4 xl:col-span-5 lg:hidden flex flex-col items-center justify-center relative min-h-[200px] z-20">
-          <div className="grid grid-cols-2 gap-6 w-full max-w-[400px]">
-            {dynamicStats.map((metric) => (
-              <CountUp
-                key={metric.id}
-                end={parseInt(metric.value) || 0}
-                suffix={metric.suffix}
-                label={metric.label}
-              />
-            ))}
-          </div>
-        </div>
+
 
       </div>
 
