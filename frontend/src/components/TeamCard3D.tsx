@@ -27,7 +27,7 @@ const roleMap: Record<string, string> = {
   aswin: 'Full-Stack Developer, AI & Data Science Expert',
   rashin: 'Digital Marketer',
   sreerag: 'Full-Stack Developer',
-  ashin: 'On-Site Marketing',
+  ashin: 'Photography & Videography, Editing & Marketing',
 };
 
 // Refined, minimal bios
@@ -35,7 +35,7 @@ const bioMap: Record<string, string> = {
   aswin: 'Specializing in end-to-end full-stack architectures, machine learning models, and intelligent AI systems.',
   rashin: 'Driving data-backed digital campaigns, performance marketing, search visibility, and organic brand traction.',
   sreerag: 'Engineering scalable web platforms, responsive user experiences, and modular full-stack solutions.',
-  ashin: 'Leading direct on-ground marketing initiatives, B2B business outreach, and executive client partnerships.',
+  ashin: 'Specializing in professional photography, cinematic videography, creative editing, and brand marketing.',
 };
 
 // Core skills
@@ -43,7 +43,7 @@ const skillsMap: Record<string, string[]> = {
   aswin: ['Full Stack', 'Data Science', 'Machine Learning', 'AI Systems', 'React', 'Python', 'TypeScript'],
   rashin: ['Digital Marketing', 'SEO', 'Paid Media', 'Growth Strategy', 'Analytics'],
   sreerag: ['Full Stack', 'React', 'Node.js', 'System Architecture', 'APIs'],
-  ashin: ['On-Site Marketing', 'B2B Outreach', 'Brand Activation', 'Client Relations'],
+  ashin: ['Photography', 'Videography', 'Video Editing', 'Marketing', 'Content Creation'],
 };
 
 interface TeamCard3DProps {

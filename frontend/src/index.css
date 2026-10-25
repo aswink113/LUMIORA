@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=Outfit:wght@400;700;900&family=Syncopate:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=Outfit:wght@400;700;900&family=Unbounded:wght@700;800;900&family=Syncopate:wght@700&display=swap');
 @import "tailwindcss";
 
 @font-face {
@@ -34,30 +34,31 @@
   
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-heading: 'Maggle', 'Outfit', sans-serif;
-  --font-logo: 'Syncopate', sans-serif;
+  --font-logo: 'Unbounded', 'Outfit', sans-serif;
 }
 
 @layer base {
   :root {
-    --bg-color: transparent;
-    --bg-secondary: transparent;
-    --text-color: #111111;
-    --text-muted: #555555;
-    --border-color: rgba(94, 91, 255, 0.08);
-    --glass-bg: rgba(255, 255, 255, 0.45);
-    --shadow-color: rgba(94, 91, 255, 0.05);
-    --card-hover-bg: rgba(94, 91, 255, 0.03);
-    --card-bg: rgba(255, 255, 255, 0.5);
+    --bg-color: #070512;
+    --bg-secondary: #0c0924;
+    --text-color: #F8FAFC;
+    --text-muted: #94A3B8;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(12, 9, 36, 0.7);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --card-hover-bg: rgba(20, 16, 50, 0.85);
+    --card-bg: rgba(14, 11, 37, 0.75);
     --cursor-color: 94, 91, 255;
-    --stats-border: rgba(94, 91, 255, 0.08);
+    --stats-border: rgba(255, 255, 255, 0.1);
   }
   
   html {
     scroll-behavior: initial; /* Lenis will handle this */
+    background-color: #070512;
   }
 
   body {
-    background: linear-gradient(135deg, #FCFCFC 0%, #F5F4FF 40%, #FAF2FF 80%, #FCFCFC 100%);
+    background: #070512;
     color: var(--text-color);
     font-family: var(--font-sans);
     margin: 0;
@@ -69,6 +70,23 @@
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
+  }
+
+  /* Ensure standard visible normal cursor across the application */
+  *, *::before, *::after {
+    cursor: auto;
+  }
+
+  button, a, [role="button"], input[type="submit"], input[type="button"], select, .hover-target {
+    cursor: pointer !important;
+  }
+
+  input[type="text"], input[type="email"], input[type="password"], textarea {
+    cursor: text !important;
+  }
+
+  .cursor-none {
+    cursor: auto !important;
   }
 }
 

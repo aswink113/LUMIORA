@@ -196,7 +196,7 @@ export const TeamPage = () => {
   };
 
   return (
-    <div className="min-h-screen cursor-none" style={{ background: 'linear-gradient(150deg, #EBF0FF 0%, #F2EEFF 28%, #F9EEFF 58%, #EBF4FF 100%)', backgroundAttachment: 'fixed' }}>
+    <div className="min-h-screen bg-[#070512] text-white">
       <CustomCursor />
       <ProjectPlannerModal isOpen={plannerOpen} onClose={() => setPlannerOpen(false)} />
       <Navbar onOpenPlanner={() => setPlannerOpen(true)} />
@@ -206,9 +206,9 @@ export const TeamPage = () => {
 
       {/* Page Hero — no stats */}
       <section className="relative pt-24 pb-2 px-6 overflow-hidden">
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[400px] rounded-full blur-[180px] pointer-events-none" style={{ background: 'rgba(99,102,241,0.09)' }} />
-        <div className="absolute top-1/2 right-1/4 w-[400px] h-[350px] rounded-full blur-[160px] pointer-events-none" style={{ background: 'rgba(139,92,246,0.07)' }} />
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
+        <div className="absolute top-1/3 left-1/4 w-[500px] h-[400px] rounded-full blur-[180px] pointer-events-none" style={{ background: 'rgba(99,102,241,0.12)' }} />
+        <div className="absolute top-1/2 right-1/4 w-[400px] h-[350px] rounded-full blur-[160px] pointer-events-none" style={{ background: 'rgba(139,92,246,0.10)' }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
 
         <div className="max-w-6xl mx-auto relative z-10">
           <motion.div
@@ -216,16 +216,16 @@ export const TeamPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
           >
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 font-mono shadow-xs mb-4">
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-200 font-mono shadow-xs mb-4">
               Our Team
             </span>
-            <h1 className="text-4xl md:text-6xl font-black font-heading leading-[1.0] tracking-tight mb-3 text-slate-900">
+            <h1 className="text-4xl md:text-6xl font-black font-heading leading-[1.0] tracking-tight mb-3 text-white">
               The People Behind <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A5A2FF] via-[#C4B5FD] to-[#F472B6]">
                 LUMIORA
               </span>
             </h1>
-            <p className="text-xl max-w-2xl leading-relaxed" style={{ color: '#6366A8' }}>
+            <p className="text-xl max-w-2xl leading-relaxed text-slate-300">
               A tight-knit crew of designers, engineers, and strategists united by one belief —
               great digital products change everything.
             </p>

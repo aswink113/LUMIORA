@@ -28,20 +28,23 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
   const expertiseWords = useMemo(() => {
     const cleaned = dynamicCards
       .map((c) => (typeof c === 'string' ? c : c.text))
-      // Strip leading emojis and symbols (e.g. "🤖 AI Automation" -> "AI Automation")
-      .map((t) => t.replace(/^[^\w\s&+-]+/, '').trim())
+      // Strip leading emojis and symbols (e.g. "🤖 AI Automation" -> "AI Automation") cleanly via Unicode
+      .map((t) => t.replace(/^[^\p{L}\p{N}]+/u, '').trim())
       .filter((t) => t.length > 0);
 
     return (cleaned.length > 0
       ? cleaned
       : [
-          'AI Automation & Intelligence',
-          'FastAPI & Modern React',
-          'Mobile App Development',
-          'Cloud Solutions & DevOps',
-          'Strategic Brand Identity',
-          'UI/UX Product Design',
-        ]
+        'AI Integrated Solutions',
+        '3D Web Designing',
+        'Mobile App Development',
+        'Brand Identity',
+        'UI/UX Web Designing',
+        'Photography & Videography',
+        'Video Editing',
+        'Logo Design',
+        'Content Writing',
+      ]
     ).join('\n');
   }, [dynamicCards]);
 
@@ -68,7 +71,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
   return (
     <section
       ref={containerRef}
-      className="relative z-20 w-full min-h-screen lg:h-screen lg:max-h-screen flex flex-col justify-start items-start pt-24 sm:pt-28 lg:pt-28 xl:pt-32 pb-12 overflow-visible bg-transparent"
+      className="relative z-20 w-full min-h-screen lg:h-screen lg:max-h-screen flex flex-col justify-center items-center pt-24 sm:pt-28 lg:pt-28 xl:pt-32 pb-16 overflow-visible bg-transparent text-center"
     >
       {/* ── Glimmer Vale WebGL2 Scenic Background ── */}
       <div className="absolute inset-0 w-full h-full pointer-events-auto z-0 overflow-hidden select-none">
@@ -81,33 +84,33 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0718]/50 to-[#0a0718]" />
       </div>
 
-      {/* ── Atmospheric Black Shadow Scrim Behind Content Text ── */}
+      {/* ── Atmospheric Shadow Scrim (Lightened to keep 3D background vivid and visible) ── */}
       <div
         className="absolute inset-0 pointer-events-none z-10 select-none"
         style={{
           background: `
-            radial-gradient(ellipse 80% 60% at 22% 32%, rgba(3, 2, 8, 0.72) 0%, rgba(3, 2, 8, 0.42) 50%, transparent 78%),
-            radial-gradient(ellipse 55% 40% at 14% 88%, rgba(3, 2, 8, 0.65) 0%, transparent 72%),
-            linear-gradient(to right, rgba(3, 2, 8, 0.5) 0%, rgba(3, 2, 8, 0.22) 42%, transparent 75%)
+            radial-gradient(ellipse 70% 50% at 50% 48%, rgba(3, 2, 8, 0.35) 0%, rgba(3, 2, 8, 0.12) 55%, transparent 80%),
+            radial-gradient(ellipse 50% 30% at 50% 92%, rgba(3, 2, 8, 0.25) 0%, transparent 70%),
+            linear-gradient(to bottom, rgba(3, 2, 8, 0.2) 0%, transparent 25%, transparent 75%, rgba(7, 5, 18, 0.75) 100%)
           `,
         }}
       />
 
-      <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 flex flex-col items-start justify-start relative z-20 pt-1 sm:pt-2 lg:pt-2">
+      <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 flex flex-col items-center justify-center relative z-20 pt-1 sm:pt-2 lg:pt-2 text-center">
 
         {/* Content Column */}
-        <div className="w-full max-w-7xl flex flex-col items-start text-left space-y-6 lg:space-y-7 relative">
+        <div className="w-full max-w-6xl flex flex-col items-center text-center space-y-6 lg:space-y-7 relative mx-auto">
 
           {/* Premium Headline - Increased Font Size & Single Line with Crisp Background Drop Shadows */}
-          <div className="w-full">
+          <div className="w-full flex justify-center text-center">
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl sm:text-6xl md:text-7xl lg:text-[88px] xl:text-[104px] 2xl:text-[118px] font-black text-white leading-none tracking-tight font-heading whitespace-nowrap filter drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] drop-shadow-[0_12px_45px_rgba(0,0,0,0.85)]"
+              className="text-4xl sm:text-6xl md:text-7xl lg:text-[88px] xl:text-[104px] 2xl:text-[118px] font-black text-white leading-none tracking-tight font-heading whitespace-nowrap text-center filter drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] drop-shadow-[0_12px_45px_rgba(0,0,0,0.85)]"
             >
               WHERE{' '}
-              <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#A5A2FF] via-[#C4B5FD] to-[#F472B6] filter drop-shadow-[0_0_35px_rgba(165,162,255,0.5)]">
+              <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#A5A2FF] via-[#C4B5FD] to-[#F472B6]">
                 INNOVATION
               </span>{' '}
               BEGINS
@@ -115,12 +118,12 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
           </div>
 
           {/* Main Hero Copy & Buttons */}
-          <div className="flex flex-col items-start space-y-5 max-w-2xl">
+          <div className="flex flex-col items-center text-center space-y-6 max-w-2xl mx-auto">
             <motion.p
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-slate-100 text-base sm:text-lg md:text-xl font-medium leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] [text-shadow:_0_2px_10px_rgba(0,0,0,0.9),_0_4px_20px_rgba(0,0,0,0.75)]"
+              className="text-slate-100 text-base sm:text-lg md:text-xl font-medium leading-relaxed text-center drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] [text-shadow:_0_2px_10px_rgba(0,0,0,0.9),_0_4px_20px_rgba(0,0,0,0.75)]"
             >
               Lumiora designs and develops premium websites, high-performance web & mobile applications, and scalable digital marketing strategies that help ambitious businesses grow faster.
             </motion.p>
@@ -130,7 +133,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap gap-4 items-center w-full z-30 pt-1"
+              className="flex flex-wrap gap-4 items-center justify-center w-full z-30 pt-1"
             >
               {/* Primary CTA */}
               <VenomButton
@@ -138,7 +141,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
                 gooColor="#5E5BFF"
                 textColor="#FFFFFF"
                 size={52}
-                className="text-xs sm:text-sm font-bold tracking-wider uppercase shadow-[0_8px_30px_rgba(0,0,0,0.6)]"
+                className="text-xs sm:text-sm font-bold tracking-wider uppercase"
               >
                 CONNECT WITH US
                 <PhoneCall className="w-4 h-4 ml-1" />
@@ -150,7 +153,7 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
                 gooColor="#FFFFFF"
                 textColor="#0F172A"
                 size={52}
-                className="text-xs sm:text-sm font-black tracking-wider uppercase shadow-[0_8px_30px_rgba(0,0,0,0.6)]"
+                className="text-xs sm:text-sm font-black tracking-wider uppercase"
               >
                 Explore Our Work
               </VenomButton>
@@ -159,24 +162,24 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
         </div>
       </div>
 
-      {/* ── Boxless Minimalist "OUR EXPERTISE" in Bottom Left Corner ── */}
+      {/* ── Boxless Minimalist "OUR EXPERTISE" Centered at Base ── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute bottom-6 sm:bottom-8 left-6 sm:left-8 lg:left-12 xl:left-16 z-35 flex flex-col items-start select-none"
+        className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-35 flex flex-col items-center select-none text-center w-full max-w-3xl px-4 pointer-events-none"
       >
-        <div className="flex items-center gap-2 mb-1 select-none">
+        <div className="flex items-center justify-center gap-2 mb-1.5 select-none">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#A5A2FF] opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#A5A2FF]" />
           </span>
-          <span className="text-[11px] font-black uppercase tracking-[0.25em] text-indigo-200/90 font-mono drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] [text-shadow:_0_1px_6px_rgba(0,0,0,0.95)]">
+          <span className="text-[11px] sm:text-xs font-black uppercase tracking-[0.25em] text-indigo-200/90 font-mono drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] [text-shadow:_0_1px_6px_rgba(0,0,0,0.95)]">
             OUR EXPERTISE
           </span>
         </div>
 
-        <div className="h-9 sm:h-11 flex items-center justify-start overflow-hidden drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
+        <div className="w-full flex items-center justify-center min-h-[44px] sm:min-h-[52px] overflow-visible drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
           <TextMorph
             words={expertiseWords}
             color="#FFFFFF"
@@ -190,9 +193,9 @@ export const Hero = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
             font={{
               fontFamily: "'Space Grotesk', 'Outfit', sans-serif",
               fontWeight: 800,
-              fontSize: "clamp(1.2rem, 2vw, 26px)",
-              textAlign: "left",
-              lineHeight: "1.2em",
+              fontSize: "clamp(1.15rem, 2.2vw, 26px)",
+              textAlign: "center",
+              lineHeight: "1.25em",
               letterSpacing: "-0.01em",
             }}
           />

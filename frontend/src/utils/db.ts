@@ -103,9 +103,9 @@ const DEFAULT_TEAM: TeamMember[] = [
   {
     id: "ashin",
     name: "Ashin P",
-    role: "On-Site Marketing",
-    bio: "Leading direct on-ground marketing initiatives, B2B business outreach, client engagements, and brand activations.",
-    skills: ["On-Site Marketing", "B2B Outreach", "Event Marketing", "Client Relations"],
+    role: "Photography & Videography, Editing & Marketing",
+    bio: "Specializing in professional photography, cinematic videography, creative editing, and brand marketing.",
+    skills: ["Photography", "Videography", "Video Editing", "Marketing", "Content Creation"],
     photo_url: "/employee/ashin.png"
   }
 ];
@@ -420,9 +420,14 @@ export const getTeam = (): TeamMember[] => {
       migrated = true;
       return { ...m, role: 'Full-Stack Developer', skills: ['React', 'TypeScript', 'Tailwind CSS', 'REST APIs', 'Modern Web'] };
     }
-    if (id === 'ashin' && m.role !== 'On-Site Marketing') {
+    if (id === 'ashin' && m.role !== 'Photography & Videography, Editing & Marketing') {
       migrated = true;
-      return { ...m, role: 'On-Site Marketing', skills: ['On-Site Marketing', 'B2B Outreach', 'Event Marketing', 'Client Relations'] };
+      return {
+        ...m,
+        role: 'Photography & Videography, Editing & Marketing',
+        bio: 'Specializing in professional photography, cinematic videography, creative editing, and brand marketing.',
+        skills: ['Photography', 'Videography', 'Video Editing', 'Marketing', 'Content Creation']
+      };
     }
     return m;
   });
@@ -522,20 +527,26 @@ const DEFAULT_ORBIT_ICONS: OrbitIcon[] = [
 ];
 
 const DEFAULT_EXPERTISE_CARDS: ExpertiseCard[] = [
-  { id: "exp-1", text: '🤖 AI Automation' },
-  { id: "exp-2", text: '⚡ FastAPI + React' },
-  { id: "exp-3", text: '📱 Mobile Apps' },
-  { id: "exp-4", text: '☁ Cloud Solutions' },
-  { id: "exp-5", text: '🎨 Brand Identity' },
-  { id: "exp-6", text: '✨ UI/UX Design' }
+  { id: "exp-1", text: '🤖 AI Integrated Solutions' },
+  { id: "exp-2", text: '🌐 3D Web Designing' },
+  { id: "exp-3", text: '📱 Mobile App Development' },
+  { id: "exp-4", text: '🎨 Brand Identity' },
+  { id: "exp-5", text: '✨ UI/UX Web Designing' },
+  { id: "exp-6", text: '📸 Photography & Videography' },
+  { id: "exp-7", text: '🎬 Video Editing' },
+  { id: "exp-8", text: '✒️ Logo Design' },
+  { id: "exp-9", text: '✍️ Content Writing' }
 ];
+
+const EXPERTISE_VERSION = 'v4_user_custom';
 
 const initDynamicHeroDB = () => {
   if (!localStorage.getItem('pf_orbit_icons')) {
     localStorage.setItem('pf_orbit_icons', JSON.stringify(DEFAULT_ORBIT_ICONS));
   }
-  if (!localStorage.getItem('pf_expertise_cards')) {
+  if (!localStorage.getItem('pf_expertise_cards') || localStorage.getItem('pf_expertise_cards_ver') !== EXPERTISE_VERSION) {
     localStorage.setItem('pf_expertise_cards', JSON.stringify(DEFAULT_EXPERTISE_CARDS));
+    localStorage.setItem('pf_expertise_cards_ver', EXPERTISE_VERSION);
   }
 };
 

@@ -45,18 +45,15 @@ export const Footer = () => {
 
   return (
     <footer 
-      className="relative border-t border-indigo-100/70 overflow-hidden"
-      style={{
-        background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(248, 246, 255, 0.88) 40%, #F4F1FF 100%)',
-      }}
+      className="relative border-t border-white/10 overflow-hidden bg-[#05030e] text-white"
     >
       {/* Subtle ambient light glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[150px] bg-gradient-to-r from-blue-400/10 via-purple-400/10 to-pink-400/10 rounded-full blur-[80px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[150px] bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-pink-600/10 rounded-full blur-[80px] pointer-events-none" />
 
       <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 py-8 relative z-10">
         
         {/* Compact Main Row */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 pb-6 border-b border-indigo-100/60">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 pb-6 border-b border-white/10">
           
           {/* Brand & Slogan */}
           <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
@@ -76,42 +73,42 @@ export const Footer = () => {
                 className="w-8 h-8 object-contain group-hover:rotate-[360deg] transition-transform duration-700" 
               />
               <div className="flex flex-col">
-                <span className="text-xl font-black tracking-[0.22em] bg-gradient-to-r from-[#5E5BFF] via-[#7B68FF] to-[#A855F7] bg-clip-text text-transparent font-logo uppercase leading-none">
+                <span className="text-xl font-black tracking-[0.12em] bg-gradient-to-r from-white via-[#C4B5FD] to-[#F472B6] bg-clip-text text-transparent font-logo uppercase leading-none">
                   LUMIORA
                 </span>
-                <span className="text-[9.5px] font-bold tracking-[0.24em] text-slate-700 group-hover:text-[#5E5BFF] transition-colors uppercase mt-0.5">
+                <span className="text-[9.5px] font-bold tracking-[0.24em] text-[#A5A2FF] group-hover:text-white transition-colors uppercase mt-0.5 font-mono">
                   WHERE INNOVATION BEGINS
                 </span>
               </div>
             </Link>
 
-            <span className="hidden sm:inline-block w-px h-6 bg-indigo-200/60" />
+            <span className="hidden sm:inline-block w-px h-6 bg-white/10" />
 
             {/* Availability Pill */}
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50/90 border border-emerald-200/70 text-emerald-700 text-[11px] font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-400 text-[11px] font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               Available for Projects
             </div>
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-semibold text-stone-600">
-            <a href="#services" onClick={(e) => handleAnchorClick(e, '#services')} className="hover:text-[#5E5BFF] transition-colors hover-target">
+          <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-semibold text-slate-300">
+            <a href="#services" onClick={(e) => handleAnchorClick(e, '#services')} className="hover:text-[#A5A2FF] transition-colors hover-target">
               Services
             </a>
-            <Link to="/work" className="hover:text-[#5E5BFF] transition-colors hover-target">
+            <Link to="/work" className="hover:text-[#A5A2FF] transition-colors hover-target">
               Selected Work
             </Link>
-            <a href="#about" onClick={(e) => handleAnchorClick(e, '#about')} className="hover:text-[#5E5BFF] transition-colors hover-target">
+            <a href="#about" onClick={(e) => handleAnchorClick(e, '#about')} className="hover:text-[#A5A2FF] transition-colors hover-target">
               About
             </a>
-            <Link to="/team" className="hover:text-[#5E5BFF] transition-colors hover-target">
+            <Link to="/team" className="hover:text-[#A5A2FF] transition-colors hover-target">
               Team
             </Link>
-            <Link to="/blog" className="hover:text-[#5E5BFF] transition-colors hover-target">
+            <Link to="/blog" className="hover:text-[#A5A2FF] transition-colors hover-target">
               Insights
             </Link>
-            <a href="#contact" onClick={(e) => handleAnchorClick(e, '#contact')} className="hover:text-[#5E5BFF] transition-colors hover-target">
+            <a href="#contact" onClick={(e) => handleAnchorClick(e, '#contact')} className="hover:text-[#A5A2FF] transition-colors hover-target">
               Contact
             </a>
           </nav>
@@ -120,9 +117,9 @@ export const Footer = () => {
           <div className="flex items-center gap-3">
             <a 
               href="mailto:lumiora.innovate@gmail.com"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-[#5E5BFF] hover:text-[#4F46E5] bg-white/90 hover:bg-white px-3.5 py-1.5 rounded-full border border-indigo-200/70 shadow-sm transition-all hover-target"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-white hover:text-[#A5A2FF] bg-white/5 hover:bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 shadow-sm transition-all hover-target"
             >
-              <Mail className="w-3.5 h-3.5" />
+              <Mail className="w-3.5 h-3.5 text-[#A5A2FF]" />
               <span>lumiora.innovate@gmail.com</span>
             </a>
           </div>
@@ -130,10 +127,10 @@ export const Footer = () => {
         </div>
 
         {/* Compact Bottom Bar */}
-        <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-medium text-stone-500">
+        <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-medium text-slate-400">
           
           <div>
-            © {new Date().getFullYear()} <span className="font-semibold text-stone-700">LUMIORA</span>. All rights reserved.
+            © {new Date().getFullYear()} <span className="font-semibold text-white">LUMIORA</span>. All rights reserved.
           </div>
 
           {/* Social Icons */}
@@ -150,7 +147,7 @@ export const Footer = () => {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={s.label}
-                className="w-7 h-7 rounded-full bg-white/70 hover:bg-white border border-indigo-100 hover:border-indigo-300 text-stone-500 hover:text-[#5E5BFF] flex items-center justify-center transition-all shadow-xs hover:scale-110 hover-target"
+                className="w-7 h-7 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 hover:border-[#A5A2FF]/40 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-xs hover:scale-110 hover-target"
               >
                 <s.icon className="w-3.5 h-3.5" />
               </a>
@@ -160,7 +157,7 @@ export const Footer = () => {
           {/* Scroll to Top */}
           <button 
             onClick={scrollToTop} 
-            className="inline-flex items-center gap-1 text-stone-500 hover:text-[#5E5BFF] transition-colors hover-target font-semibold cursor-pointer"
+            className="inline-flex items-center gap-1 text-slate-400 hover:text-[#A5A2FF] transition-colors hover-target font-semibold cursor-pointer"
           >
             <span>Back to Top</span>
             <ArrowUp className="w-3 h-3" />

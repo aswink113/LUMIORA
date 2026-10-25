@@ -75,16 +75,16 @@ const ProjectCard = ({ title, client, category, gradient, year, photo_url, onInq
 
       {/* Fluid Editorial Typography Below Media (No Card Box) */}
       <div className="pt-5 pb-2 flex flex-col justify-between">
-        <div className="flex items-center justify-between text-xs text-text-muted font-mono mb-2">
-          <span className="text-indigo-600 font-semibold">{category}</span>
+        <div className="flex items-center justify-between text-xs text-slate-400 font-mono mb-2">
+          <span className="text-[#A5A2FF] font-semibold">{category}</span>
           <span>{year}</span>
         </div>
         
-        <h3 className="text-xl md:text-2xl font-heading font-extrabold text-text-main group-hover:text-indigo-600 transition-colors duration-300 mb-3">
+        <h3 className="text-xl md:text-2xl font-heading font-extrabold text-white group-hover:text-[#A5A2FF] transition-colors duration-300 mb-3">
           {title}
         </h3>
 
-        <div className="flex items-center gap-2 text-xs font-semibold text-text-muted group-hover:text-indigo-600 transition-colors">
+        <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 group-hover:text-[#A5A2FF] transition-colors">
           <span>Explore Case Study</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
         </div>
@@ -150,31 +150,31 @@ export const Portfolio = ({ onOpenPlanner }: { onOpenPlanner: (category: string)
   }, []);
 
   return (
-    <section id="projects" className="relative py-28 bg-brand-bg border-t border-border-color z-10 px-6 transition-colors duration-300">
+    <section id="projects" className="relative py-28 bg-[#070512] text-white border-t border-white/10 z-10 px-6 transition-colors duration-300">
       {/* Ambient background lights */}
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-900/5 rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[180px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
           <div className="max-w-xl">
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 dark:border-white/20 dark:bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-200 font-mono shadow-xs mb-4">
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-200 font-mono shadow-xs mb-4">
               Case Studies
             </span>
-            <h2 className="text-4xl md:text-6xl font-bold font-heading tracking-tight text-text-main mb-4">
-              Selected <span className="text-gradient">projects.</span>
+            <h2 className="text-4xl md:text-6xl font-black font-heading tracking-tight text-white mb-4">
+              Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A5A2FF] via-[#C4B5FD] to-[#F472B6]">projects.</span>
             </h2>
-            <p className="text-text-muted text-base font-light leading-relaxed">
+            <p className="text-slate-300 text-base font-normal leading-relaxed">
               Explore our record of building highly refined digital platforms, tools, and bespoke software experiences.
             </p>
           </div>
 
           <button
             onClick={() => onOpenPlanner("General Inquiry")}
-            className="group relative px-6 py-3 border border-border-color hover:border-text-main text-text-main rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 hover-target flex items-center gap-2 cursor-none"
+            className="group relative px-6 py-3 border border-white/20 hover:border-[#A5A2FF] bg-white/5 hover:bg-white/10 text-white rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer shadow-sm"
           >
             Inquire Full Archive
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-[#A5A2FF]" />
           </button>
         </div>
 

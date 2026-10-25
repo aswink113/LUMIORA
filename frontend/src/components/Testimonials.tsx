@@ -72,12 +72,12 @@ export const Testimonials = () => {
   }, []);
 
   return (
-    <section ref={ref} className="relative py-28 overflow-hidden bg-brand-bg transition-colors duration-300">
+    <section ref={ref} className="relative py-28 overflow-hidden bg-[#070512] text-white transition-colors duration-300">
       {/* Top divider */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-border-color to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       {/* Blob */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-blue-700/6 rounded-full blur-[200px] pointer-events-none" />
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-indigo-900/10 rounded-full blur-[200px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-6">
         {/* Header */}
@@ -87,12 +87,12 @@ export const Testimonials = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 dark:border-white/20 dark:bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-200 font-mono shadow-xs mb-6">
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-200 font-mono shadow-xs mb-6">
             Client Love
           </span>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading leading-[1.1] tracking-tight text-slate-900 dark:text-white">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading leading-[1.1] tracking-tight text-white">
             What Our{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A5A2FF] via-[#C4B5FD] to-[#F472B6]">
               Clients Say
             </span>
           </h2>
@@ -115,13 +115,13 @@ export const Testimonials = () => {
               className="py-12 px-6 md:px-16 text-center relative"
             >
               {/* Elegant quote typography */}
-              <p className="relative text-2xl sm:text-3xl md:text-4xl text-text-main leading-snug font-serif font-light max-w-4xl mx-auto mb-10 tracking-tight">
+              <p className="relative text-2xl sm:text-3xl md:text-4xl text-slate-100 leading-snug font-serif font-light max-w-4xl mx-auto mb-10 tracking-tight">
                 "{testimonials[active].quote}"
               </p>
 
               {/* Avatar + Info */}
               <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 rounded-full overflow-hidden flex items-center justify-center bg-indigo-50 border-2 border-indigo-200/60 shadow-lg flex-shrink-0">
+                <div className="w-14 h-14 rounded-full overflow-hidden flex items-center justify-center bg-purple-950/40 border-2 border-[#A5A2FF]/40 shadow-lg flex-shrink-0">
                   {testimonials[active].photo_url ? (
                     <img 
                       src={testimonials[active].photo_url} 
@@ -135,8 +135,8 @@ export const Testimonials = () => {
                   )}
                 </div>
                 <div>
-                  <p className="text-text-main font-heading font-extrabold text-lg">{testimonials[active].author}</p>
-                  <p className="text-indigo-600 font-mono text-xs uppercase tracking-wider font-semibold">{testimonials[active].role}</p>
+                  <p className="text-white font-heading font-extrabold text-lg">{testimonials[active].author}</p>
+                  <p className="text-[#A5A2FF] font-mono text-xs uppercase tracking-wider font-semibold">{testimonials[active].role}</p>
                 </div>
               </div>
             </motion.div>
@@ -148,10 +148,10 @@ export const Testimonials = () => {
               <button
                 key={i}
                 onClick={() => setActive(i)}
-                className={`cursor-none hover-target transition-all duration-300 rounded-full ${
+                className={`cursor-pointer hover-target transition-all duration-300 rounded-full ${
                   i === active
-                    ? 'w-8 h-2 bg-blue-500'
-                    : 'w-2 h-2 bg-text-muted/30 hover:bg-text-main/50'
+                    ? 'w-8 h-2 bg-gradient-to-r from-[#5E5BFF] via-[#A5A2FF] to-[#F472B6]'
+                    : 'w-2 h-2 bg-white/20 hover:bg-white/40'
                 }`}
               />
             ))}
@@ -161,7 +161,7 @@ export const Testimonials = () => {
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 hidden md:flex justify-between px-2 md:-mx-16 pointer-events-none">
             <button
               onClick={() => setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length)}
-              className="pointer-events-auto w-10 h-10 rounded-full border border-border-color bg-card-bg hover:bg-card-hover-bg flex items-center justify-center text-text-muted hover:text-text-main transition-all cursor-none hover-target backdrop-blur-sm"
+              className="pointer-events-auto w-10 h-10 rounded-full border border-white/15 bg-white/5 hover:bg-white/15 flex items-center justify-center text-slate-300 hover:text-white transition-all cursor-pointer backdrop-blur-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -169,7 +169,7 @@ export const Testimonials = () => {
             </button>
             <button
               onClick={() => setActive((prev) => (prev + 1) % testimonials.length)}
-              className="pointer-events-auto w-10 h-10 rounded-full border border-border-color bg-card-bg hover:bg-card-hover-bg flex items-center justify-center text-text-muted hover:text-text-main transition-all cursor-none hover-target backdrop-blur-sm"
+              className="pointer-events-auto w-10 h-10 rounded-full border border-white/15 bg-white/5 hover:bg-white/15 flex items-center justify-center text-slate-300 hover:text-white transition-all cursor-pointer backdrop-blur-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

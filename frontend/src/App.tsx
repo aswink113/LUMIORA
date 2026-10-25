@@ -78,7 +78,7 @@ function HomePage() {
   };
 
   return (
-    <div className="bg-brand-bg min-h-screen text-text-main cursor-none transition-colors duration-300">
+    <div className="bg-[#070512] min-h-screen text-white selection:bg-[#5E5BFF]/30 transition-colors duration-300">
       <CustomCursor />
       <ProjectPlannerModal
         isOpen={plannerOpen}

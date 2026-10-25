@@ -151,7 +151,7 @@ export const BlogPage = () => {
 
   return (
     <div
-      className="min-h-screen cursor-none"
+      className="min-h-screen"
       style={{ background: 'linear-gradient(150deg, #EBF0FF 0%, #F2EEFF 28%, #F9EEFF 58%, #EBF4FF 100%)', backgroundAttachment: 'fixed' }}
     >
       <CustomCursor />

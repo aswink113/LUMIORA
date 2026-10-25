@@ -130,7 +130,7 @@ export default function TextMorph(props: any) {
                 display: "flex",
                 justifyContent: isLeft ? "flex-start" : "center",
                 alignItems: "center",
-                overflow: "hidden",
+                overflow: "visible",
                 userSelect: "none",
                 ...style,
             }}
@@ -146,6 +146,7 @@ export default function TextMorph(props: any) {
                     justifyContent: isLeft ? "flex-start" : "center",
                     alignItems: "center",
                     textAlign: textAlign as any,
+                    overflow: "visible",
                     ...fontStyle,
                 }}
             >
@@ -155,8 +156,11 @@ export default function TextMorph(props: any) {
                         display: "inline-flex",
                         justifyContent: isLeft ? "flex-start" : "center",
                         alignItems: "center",
-                        lineHeight: 1.2,
-                        minHeight: "1.2em",
+                        lineHeight: 1.25,
+                        minHeight: "1.25em",
+                        overflow: "visible",
+                        width: "max-content",
+                        maxWidth: "100%",
                     }}
                 >
                     <span
@@ -164,6 +168,7 @@ export default function TextMorph(props: any) {
                             visibility: "hidden",
                             whiteSpace: "nowrap",
                             display: "inline-block",
+                            padding: "0 2.5rem",
                         }}
                     >
                         {longest || " "}

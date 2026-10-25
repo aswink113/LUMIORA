@@ -21,7 +21,7 @@ export const WorkPage = () => {
   };
 
   return (
-    <div className="min-h-screen cursor-none" style={{ background: 'linear-gradient(150deg, #EBF0FF 0%, #F2EEFF 28%, #F9EEFF 58%, #EBF4FF 100%)', backgroundAttachment: 'fixed' }}>
+    <div className="min-h-screen bg-[#070512] text-white">
       <CustomCursor />
       <ProjectPlannerModal
         isOpen={plannerOpen}
@@ -32,21 +32,21 @@ export const WorkPage = () => {
 
       {/* Page Hero */}
       <section className="relative pt-40 pb-20 px-6 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full blur-[180px] pointer-events-none" style={{ background: 'rgba(99,102,241,0.10)' }} />
-        <div className="absolute top-1/4 right-1/4 w-[400px] h-[300px] rounded-full blur-[150px] pointer-events-none" style={{ background: 'rgba(139,92,246,0.08)' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full blur-[180px] pointer-events-none" style={{ background: 'rgba(99,102,241,0.12)' }} />
+        <div className="absolute top-1/4 right-1/4 w-[400px] h-[300px] rounded-full blur-[150px] pointer-events-none" style={{ background: 'rgba(139,92,246,0.10)' }} />
         <div className="max-w-6xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           >
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 font-mono shadow-xs mb-6">
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-200 font-mono shadow-xs mb-6">
               Our Work
             </span>
-            <h1 className="text-5xl md:text-7xl font-black font-heading leading-[1.0] tracking-tight mb-6 text-slate-900">
-              Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">Projects</span>
+            <h1 className="text-5xl md:text-7xl font-black font-heading leading-[1.0] tracking-tight mb-6 text-white">
+              Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A5A2FF] via-[#C4B5FD] to-[#F472B6]">Projects</span>
             </h1>
-            <p className="text-xl max-w-2xl leading-relaxed" style={{ color: '#6366A8' }}>
+            <p className="text-xl max-w-2xl leading-relaxed text-slate-300">
               A curated collection of digital products, platforms, and experiences we've crafted for ambitious brands worldwide.
             </p>
           </motion.div>
@@ -62,12 +62,11 @@ export const WorkPage = () => {
               <button
                 key={f}
                 onClick={() => setActiveFilter(f)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-none hover-target border ${
+                className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer border ${
                   activeFilter === f
-                    ? 'text-white border-indigo-500'
-                    : 'text-indigo-600 border-indigo-200 hover:border-indigo-400 hover:bg-indigo-50'
+                    ? 'text-white border-transparent bg-gradient-to-r from-[#5E5BFF] via-[#7B68FF] to-[#A855F7] shadow-[0_4px_20px_rgba(94,91,255,0.4)]'
+                    : 'text-slate-300 border-white/15 bg-white/5 hover:border-white/30 hover:bg-white/10'
                 }`}
-                style={activeFilter === f ? { background: 'linear-gradient(135deg, #6366F1, #8B5CF6)' } : {}}
               >
                 {f}
               </button>
@@ -80,24 +79,23 @@ export const WorkPage = () => {
       <Portfolio onOpenPlanner={openPlanner} />
 
       {/* Bottom CTA */}
-      <section className="py-24 px-6 text-center border-t border-indigo-100">
+      <section className="py-24 px-6 text-center border-t border-white/10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold font-heading mb-4" style={{ color: '#1E1B4B' }}>
+          <h2 className="text-3xl md:text-5xl font-black font-heading mb-4 text-white">
             Want to be our next{' '}
-            <span className="text-gradient">success story?</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A5A2FF] via-[#C4B5FD] to-[#F472B6]">success story?</span>
           </h2>
-          <p className="mb-8 max-w-md mx-auto text-lg" style={{ color: '#6366A8' }}>
+          <p className="mb-8 max-w-md mx-auto text-lg text-slate-300">
             Let's talk about what we can build together.
           </p>
           <button
             onClick={() => openPlanner()}
-            className="group relative px-8 py-4 text-white text-base font-semibold rounded-full overflow-hidden hover-target transition-all hover:scale-105 active:scale-95 cursor-none"
-            style={{ background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)', boxShadow: '0 8px 30px rgba(99,102,241,0.30)' }}
+            className="group relative px-8 py-4 text-white text-base font-bold rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-[0_6px_25px_rgba(94,91,255,0.45)] bg-gradient-to-r from-[#5E5BFF] via-[#7B68FF] to-[#A855F7] border border-white/20"
           >
             <span className="relative z-10 flex items-center gap-2">
               Start a Project

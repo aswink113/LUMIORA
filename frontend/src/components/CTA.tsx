@@ -7,13 +7,13 @@ export const CTA = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="contact" ref={ref} className="relative py-32 overflow-hidden bg-brand-bg transition-colors duration-300">
+    <section id="contact" ref={ref} className="relative py-32 overflow-hidden bg-[#070512] text-white transition-colors duration-300">
       {/* Top divider */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-border-color to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       {/* Ambient glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[800px] h-[400px] bg-gradient-to-r from-blue-700/15 via-purple-700/15 to-blue-700/15 rounded-full blur-[120px]" />
+        <div className="w-[800px] h-[400px] bg-gradient-to-r from-blue-700/10 via-purple-700/15 to-pink-700/10 rounded-full blur-[140px]" />
       </div>
 
       <div className="max-w-4xl mx-auto px-6 text-center">
@@ -22,18 +22,18 @@ export const CTA = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 dark:border-white/20 dark:bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-200 font-mono shadow-xs mb-8">
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-200 font-mono shadow-xs mb-8">
             Get In Touch
           </span>
 
-          <h2 className="text-4xl sm:text-6xl md:text-7xl font-black font-heading leading-[1.05] tracking-tight text-slate-900 dark:text-white mb-6">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-black font-heading leading-[1.05] tracking-tight text-white mb-6">
             Ready to Build <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A5A2FF] via-[#C4B5FD] to-[#F472B6]">
               With LUMIORA?
             </span>
           </h2>
 
-          <p className="text-text-muted text-lg md:text-xl max-w-xl mx-auto leading-relaxed mb-12">
+          <p className="text-slate-300 text-lg md:text-xl max-w-xl mx-auto leading-relaxed mb-12">
             Whether you need a bespoke web platform, scalable application, or growth-focused marketing engine, we are ready to build what's next.
           </p>
 
@@ -54,9 +54,9 @@ export const CTA = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
 
             <a
               href="mailto:lumiora.innovate@gmail.com"
-              className="px-6 py-4 rounded-full border border-indigo-100/80 bg-white/70 hover:bg-white text-stone-700 hover:text-[#5E5BFF] text-base font-medium transition-all duration-300 flex items-center gap-2.5 cursor-none hover-target shadow-sm hover:shadow-md hover:border-indigo-200"
+              className="px-6 py-4 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 text-white hover:text-[#A5A2FF] hover:border-white/30 text-base font-medium transition-all duration-300 flex items-center gap-2.5 shadow-sm hover:shadow-md cursor-pointer"
             >
-              <svg className="w-4 h-4 text-[#5E5BFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-[#A5A2FF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               lumiora.innovate@gmail.com
@@ -64,7 +64,7 @@ export const CTA = ({ onOpenPlanner }: { onOpenPlanner?: () => void }) => {
           </div>
 
           {/* Trust line */}
-          <p className="mt-12 text-text-muted/60 text-sm">
+          <p className="mt-12 text-slate-400 text-sm">
             No commitment. Free 30-minute strategy session. ✦ We respond within 24 hours.
           </p>
         </motion.div>

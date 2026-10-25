@@ -59,6 +59,128 @@ const steps = [
   },
 ];
 
+interface StepItem {
+  step: string;
+  title: string;
+  desc: string;
+  duration: string;
+  icon: React.ReactNode;
+}
+
+const ProcessStepItem = ({ step, index }: { step: StepItem; index: number }) => {
+  const stepRef = useRef<HTMLDivElement>(null);
+  const isActive = useInView(stepRef, {
+    margin: "-20% 0px -25% 0px",
+  });
+  const isEven = index % 2 === 0;
+
+  return (
+    <div
+      ref={stepRef}
+      className={`relative flex items-start gap-6 md:gap-0 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+    >
+      {/* Content Column */}
+      <div className={`w-full md:w-[calc(50%-48px)] ${isEven ? 'md:pr-12 md:text-right' : 'md:pl-12'} pl-16 md:pl-0`}>
+        <div className="relative py-3 transition-all duration-500">
+          
+          {/* Ambient Luminescent Glow behind active card */}
+          <div
+            className={`absolute -inset-4 sm:-inset-6 rounded-3xl transition-opacity duration-700 pointer-events-none ${
+              isActive
+                ? 'opacity-100 bg-gradient-to-r from-[#5E5BFF]/15 via-[#8B5CF6]/12 to-[#F472B6]/12 blur-2xl'
+                : 'opacity-0'
+            }`}
+          />
+
+          {/* Interactive Card Border / Backdrop */}
+          <div
+            className={`relative p-5 sm:p-6 rounded-2xl border transition-all duration-500 backdrop-blur-sm ${
+              isActive
+                ? 'bg-gradient-to-b from-[#0e0a29]/80 to-[#070512]/90 border-[#A5A2FF]/40 shadow-[0_0_30px_rgba(94,91,255,0.22)] translate-y-[-2px]'
+                : 'bg-transparent border-transparent hover:border-white/5'
+            }`}
+          >
+            {/* Step Header: Icon + Number */}
+            <div className={`flex items-center gap-3 mb-3 ${isEven ? 'md:flex-row-reverse' : ''}`}>
+              <div
+                className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-500 flex-shrink-0 ${
+                  isActive
+                    ? 'bg-gradient-to-tr from-[#5E5BFF] to-[#A5A2FF] text-white shadow-[0_0_20px_rgba(94,91,255,0.7)] scale-110'
+                    : 'bg-white/5 border border-white/10 text-slate-400'
+                }`}
+              >
+                {step.icon}
+              </div>
+
+              <span
+                className={`text-xs font-mono font-bold tracking-widest uppercase transition-colors duration-500 ${
+                  isActive
+                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#A5A2FF] to-[#F472B6] font-black drop-shadow-[0_0_8px_rgba(165,162,255,0.8)]'
+                    : 'text-slate-500'
+                }`}
+              >
+                PHASE {step.step}
+              </span>
+            </div>
+
+            {/* Step Title */}
+            <h3
+              className={`font-heading font-black text-xl sm:text-2xl mb-2.5 transition-all duration-500 tracking-tight ${
+                isActive
+                  ? 'text-transparent bg-clip-text bg-gradient-to-r from-white via-[#C4B5FD] to-[#F472B6] drop-shadow-[0_0_25px_rgba(165,162,255,0.5)]'
+                  : 'text-white/80'
+              }`}
+            >
+              {step.title}
+            </h3>
+
+            {/* Step Description */}
+            <p
+              className={`text-sm sm:text-base leading-relaxed mb-4 max-w-md inline-block transition-colors duration-500 ${
+                isActive ? 'text-slate-200 font-normal' : 'text-slate-400 font-light'
+              }`}
+            >
+              {step.desc}
+            </p>
+
+            {/* Duration Tag */}
+            <div className={`flex items-center ${isEven ? 'md:justify-end' : 'justify-start'}`}>
+              <span
+                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold transition-all duration-500 ${
+                  isActive
+                    ? 'bg-[#5E5BFF]/20 border border-[#A5A2FF]/50 text-[#C4B5FD] shadow-[0_0_12px_rgba(94,91,255,0.35)]'
+                    : 'bg-white/5 border border-white/10 text-slate-400'
+                }`}
+              >
+                <svg
+                  className={`w-3.5 h-3.5 transition-colors duration-500 ${
+                    isActive ? 'text-[#A5A2FF]' : 'text-slate-400'
+                  }`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {step.duration}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Centre Dot on Timeline Track */}
+      <div
+        className={`absolute left-[20px] md:left-1/2 md:-translate-x-1/2 top-8 w-4 h-4 rounded-full border-2 transition-all duration-500 flex-shrink-0 z-20 ${
+          isActive
+            ? 'scale-135 bg-[#5E5BFF] border-white shadow-[0_0_22px_6px_rgba(94,91,255,0.85)] ring-4 ring-[#A5A2FF]/30'
+            : 'scale-100 bg-[#1e1940] border-white/20 ring-2 ring-transparent'
+        }`}
+      />
+    </div>
+  );
+};
+
 export const Process = () => {
   const ref = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
@@ -71,15 +193,15 @@ export const Process = () => {
   });
 
   return (
-    <section id="process" ref={ref} className="relative py-28 overflow-hidden bg-brand-bg transition-colors duration-300">
+    <section id="process" ref={ref} className="relative py-28 overflow-hidden bg-[#070512] text-white transition-colors duration-300">
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `linear-gradient(rgba(var(--cursor-color), 0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--cursor-color), 0.012) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }}
       />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-border-color to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
@@ -89,14 +211,16 @@ export const Process = () => {
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           className="text-center mb-20"
         >
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 dark:border-white/20 dark:bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-200 font-mono shadow-xs mb-6">
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-200 font-mono shadow-xs mb-6">
             How We Work
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold font-heading leading-[1.1] tracking-tight text-text-main">
+          <h2 className="text-4xl md:text-5xl font-black font-heading leading-[1.1] tracking-tight text-white">
             A Process That{' '}
-            <span className="text-gradient">Delivers Results</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A5A2FF] via-[#C4B5FD] to-[#F472B6]">
+              Delivers Results
+            </span>
           </h2>
-          <p className="mt-5 text-text-muted text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="mt-5 text-slate-300 text-lg max-w-xl mx-auto leading-relaxed">
             Our proven five-stage framework turns ambiguous ideas into polished, scalable products.
           </p>
         </motion.div>
@@ -104,67 +228,18 @@ export const Process = () => {
         {/* Timeline */}
         <div ref={timelineRef} className="relative">
           {/* Vertical track line */}
-          <div className="absolute left-[27px] md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-border-color opacity-30" />
+          <div className="absolute left-[27px] md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-white/10" />
           
           {/* Glowing active drawing line */}
           <motion.div 
             style={{ scaleY: scrollYProgress, originY: 0 }}
-            className="absolute left-[27px] md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-gradient-to-b from-blue-500 via-purple-500 to-emerald-400" 
+            className="absolute left-[27px] md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-gradient-to-b from-[#5E5BFF] via-[#A5A2FF] to-[#F472B6]" 
           />
 
-          <div className="flex flex-col gap-12">
-            {steps.map((step, i) => {
-              const isEven = i % 2 === 0;
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: isEven ? -40 : 40 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.8, delay: i * 0.12, ease: [0.76, 0, 0.24, 1] }}
-                  className={`relative flex items-start gap-6 md:gap-0 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
-                >
-                  {/* Content - Open Editorial Layout (No Card Box) */}
-                  <div className={`w-full md:w-[calc(50%-48px)] ${isEven ? 'md:pr-12 md:text-right' : 'md:pl-12'} pl-16 md:pl-0`}>
-                    <div className="group relative py-2 transition-colors duration-300">
-                      <div className={`flex items-center gap-3 mb-2 ${isEven ? 'md:flex-row-reverse' : ''}`}>
-                        <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-500 flex-shrink-0">
-                          {step.icon}
-                        </div>
-                        <span className="text-xs font-mono font-bold text-indigo-500 tracking-widest">{step.step}</span>
-                      </div>
-                      <h3 className="text-text-main font-heading font-extrabold text-xl mb-2 group-hover:text-indigo-600 transition-colors">
-                        {step.title}
-                      </h3>
-                      <p className="text-text-muted text-sm leading-relaxed mb-3 max-w-md inline-block">
-                        {step.desc}
-                      </p>
-                      <div>
-                        <span className="inline-flex items-center gap-1.5 text-xs text-indigo-600 font-mono font-semibold">
-                          <svg className="w-3.5 h-3.5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          {step.duration}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
- 
-                   {/* Centre dot */}
-                  <motion.div 
-                    initial={{ scale: 1, backgroundColor: "#E5E7EB", boxShadow: "0 0 0px rgba(94, 91, 255, 0)" }}
-                    whileInView={{ 
-                      scale: 1.35,
-                      backgroundColor: "#5E5BFF",
-                      boxShadow: "0 0 16px 4px rgba(94, 91, 255, 0.4)",
-                      borderColor: "#ffffff"
-                    }}
-                    viewport={{ margin: "-140px" }}
-                    transition={{ duration: 0.4 }}
-                    className="absolute left-[20px] md:left-1/2 md:-translate-x-1/2 top-6 w-[14px] h-[14px] rounded-full border-2 border-brand-bg ring-4 ring-[#5E5BFF]/10 flex-shrink-0 z-20" 
-                  />
-                </motion.div>
-              );
-            })}
+          <div className="flex flex-col gap-12 sm:gap-16">
+            {steps.map((step, i) => (
+              <ProcessStepItem key={i} step={step} index={i} />
+            ))}
           </div>
         </div>
       </div>

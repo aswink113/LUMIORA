@@ -176,7 +176,7 @@ const ADVANCED_DEFAULTS = {
     shine: "#EDF0F7",
     rim: 100,
     glint: 100,
-    shadow: 20,
+    shadow: 0,
     gloveScale: 155,
     pressScale: 96,
     strandWidth: 100,
@@ -1033,7 +1033,7 @@ export const VenomButton: React.FC<VenomButtonProps> = (props) => {
     return (
         <div
             ref={stageRef}
-            className={`venom-stage ${className}`}
+            className="venom-stage"
             style={{
                 position: "relative",
                 display: "inline-flex",
@@ -1043,14 +1043,16 @@ export const VenomButton: React.FC<VenomButtonProps> = (props) => {
                 margin: "-36px -44px",
                 overflow: "visible",
                 touchAction: "pan-y",
-                background,
+                background: "transparent",
+                boxShadow: "none",
+                border: "none",
                 pointerEvents: "none",
-                ...style,
             }}
         >
             <style>{`
-                .venom-pill{outline:none;}
-                .venom-pill:focus-visible{outline:2px solid rgba(94,91,255,.5);outline-offset:3px;}
+                .venom-stage { background: transparent !important; box-shadow: none !important; border: none !important; }
+                .venom-pill { outline: none; }
+                .venom-pill:focus-visible { outline: 2px solid rgba(94,91,255,.5); outline-offset: 3px; }
             `}</style>
             <canvas
                 ref={handRef}
@@ -1065,7 +1067,7 @@ export const VenomButton: React.FC<VenomButtonProps> = (props) => {
             <button
                 ref={btnRef}
                 type="button"
-                className="venom-pill hover-target"
+                className={`venom-pill hover-target ${className}`}
                 onClick={onClick}
                 style={{
                     position: "relative",
@@ -1093,6 +1095,7 @@ export const VenomButton: React.FC<VenomButtonProps> = (props) => {
                     WebkitTapHighlightColor: "transparent",
                     background: fallback ? gooColor : "transparent",
                     textShadow: "0 1px 2px rgba(0,0,0,.25)",
+                    ...style,
                 }}
             >
                 {children || label}

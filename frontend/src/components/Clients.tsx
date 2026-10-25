@@ -40,7 +40,7 @@ export const Clients = () => {
   }, [logos]);
 
   return (
-    <section id="clients" className="py-20 bg-transparent overflow-hidden border-y border-black/[0.02]">
+    <section id="clients" className="py-20 bg-[#070512] text-white overflow-hidden border-y border-white/10">
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes ac-wave {
           0%, 100% {
@@ -62,12 +62,12 @@ export const Clients = () => {
       `}} />
       {/* Heading */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center mb-12">
-        <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-200/80 bg-white/80 dark:border-white/20 dark:bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-200 font-mono shadow-xs mb-4">
+        <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-indigo-200 font-mono shadow-xs mb-4">
           Partnerships
         </span>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white mt-2 tracking-tight font-heading">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mt-2 tracking-tight font-heading">
           Our Trusted{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A5A2FF] via-[#C4B5FD] to-[#F472B6]">
             Clients
           </span>
         </h2>
@@ -80,8 +80,8 @@ export const Clients = () => {
           {/* Row 1: Scrolling Left to Right (Phase 0) */}
           <div className="relative w-full flex overflow-hidden py-4">
             {/* Left/Right Faders for depth */}
-            <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-[#FCFCFC] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-[#FCFCFC] to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-[#070512] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-[#070512] to-transparent z-10 pointer-events-none" />
             
             <div className="flex gap-32 md:gap-40 py-2 animate-marquee-reverse-fast" style={{ width: 'max-content' }}>
               {row1.map((logo, i) => (
@@ -93,7 +93,7 @@ export const Clients = () => {
                   <img 
                     src={logo.logoUrl} 
                     alt={logo.name} 
-                    className="h-full w-auto object-contain max-w-[140px] opacity-75 group-hover:opacity-100 transition-all duration-300" 
+                    className="h-full w-auto object-contain max-w-[140px] opacity-75 group-hover:opacity-100 filter brightness-125 transition-all duration-300" 
                   />
                 </div>
               ))}
@@ -102,8 +102,8 @@ export const Clients = () => {
 
           {/* Row 2: Scrolling Right to Left (Phase 120 deg = 2s delay) */}
           <div className="relative w-full flex overflow-hidden py-4">
-            <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-[#FCFCFC] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-[#FCFCFC] to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-[#070512] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-[#070512] to-transparent z-10 pointer-events-none" />
             
             <div className="flex gap-32 md:gap-40 py-2 animate-marquee-fast" style={{ width: 'max-content' }}>
               {row2.map((logo, i) => (
@@ -115,7 +115,7 @@ export const Clients = () => {
                   <img 
                     src={logo.logoUrl} 
                     alt={logo.name} 
-                    className="h-full w-auto object-contain max-w-[140px] opacity-75 group-hover:opacity-100 transition-all duration-300" 
+                    className="h-full w-auto object-contain max-w-[140px] opacity-75 group-hover:opacity-100 filter brightness-125 transition-all duration-300" 
                   />
                 </div>
               ))}
@@ -124,8 +124,8 @@ export const Clients = () => {
 
           {/* Row 3: Scrolling Left to Right (Phase 240 deg = 4s delay) */}
           <div className="relative w-full flex overflow-hidden py-4">
-            <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-[#FCFCFC] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-[#FCFCFC] to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-[#070512] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-[#070512] to-transparent z-10 pointer-events-none" />
             
             <div className="flex gap-32 md:gap-40 py-2 animate-marquee-reverse-fast" style={{ width: 'max-content' }}>
               {row3.map((logo, i) => (
