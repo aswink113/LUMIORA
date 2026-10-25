@@ -6,12 +6,12 @@ interface LoaderProps {
 }
 
 type LoaderPhase =
-  | 'blank'           // Blank dark screen
-  | 'sweep-left'      // Logo moves from right to left, revealing "LUMIORA"
-  | 'hold-lumiora'    // Hold for 2 seconds with Logo + LUMIORA
-  | 'sweep-right'     // Logo moves back to right outside screen, erasing LUMIORA & writing WHERE INNOVATION BEGINS
-  | 'hold-tagline'    // Hold for 2 seconds with WHERE INNOVATION BEGINS
-  | 'zoom-portal'     // Fully zoom inside text, revealing main page as overlay effect
+  | 'blank'             // Initial dark ambient screen
+  | 'sweep-left'        // Logo moves from right to left, revealing "LUMIORA"
+  | 'hold-lumiora'      // Quick crisp hold on Logo + LUMIORA
+  | 'sweep-transition'  // Logo sweeps across words from left to right, covering LUMIORA and revealing "WHERE INNOVATION BEGINS" in lockstep
+  | 'hold-tagline'      // Crisp hold on WHERE INNOVATION BEGINS
+  | 'zoom-portal'       // Hyper-zoom portal into the main page
   | 'done';
 
 export const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
@@ -33,37 +33,42 @@ export const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [complete]);
 
-  // Orchestrate the exact timeline with slower, smoother pacing
+  // Cinematic easing curves
+  const cinematicEase = [0.16, 1, 0.3, 1];  // Ultra-smooth Apple-grade quintic deceleration
+  const smoothSweep = [0.4, 0, 0.2, 1];     // Continuous, fluid acceleration-deceleration for sweeps
+  const zoomEase = [0.7, 0, 0.2, 1];        // Exponential hyper-zoom acceleration
+
+  // Orchestrate the seamless timeline
   useEffect(() => {
-    // 0. Blank section for 0.4s
+    // 0. Quick atmospheric fade-in: 0.12s
     const t1 = setTimeout(() => {
       setPhase('sweep-left');
-    }, 400);
+    }, 120);
 
-    // 1. Sweep-left duration is 2.8s -> Reaches left beside LUMIORA at 3.2s
+    // 1. Sweep-left duration: 1.3s -> Reaches left beside LUMIORA at 1.42s
     const t2 = setTimeout(() => {
       setPhase('hold-lumiora');
-    }, 3200);
+    }, 1420);
 
-    // 2. Hold for 2.0s -> At 5.2s, sweep back to the right
+    // 2. Hold for 0.8s -> At 2.22s, logo sweeps across words covering LUMIORA and revealing tagline
     const t3 = setTimeout(() => {
-      setPhase('sweep-right');
-    }, 5200);
+      setPhase('sweep-transition');
+    }, 2220);
 
-    // 3. Slow, majestic sweep-right duration is 3.6s -> Finishes outside screen at 8.8s
+    // 3. Sweep-transition duration: 1.4s -> Reaches right edge at 3.62s. Tagline is fully revealed!
     const t4 = setTimeout(() => {
       setPhase('hold-tagline');
-    }, 8800);
+    }, 3620);
 
-    // 4. Hold for 2.0s -> At 10.8s, start zoom inside text
+    // 4. Hold tagline for 0.85s -> At 4.47s, start smooth hyper-zoom portal
     const t5 = setTimeout(() => {
       setPhase('zoom-portal');
-    }, 10800);
+    }, 4470);
 
-    // 5. Zoom duration is 1.1s -> Complete at 11.9s
+    // 5. Zoom duration: 0.8s -> Complete at 5.27s
     const t6 = setTimeout(() => {
       complete();
-    }, 11900);
+    }, 5270);
 
     return () => {
       clearTimeout(t1);
@@ -77,10 +82,6 @@ export const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
 
   if (phase === 'done') return null;
 
-  // Gentle, luxurious easing curves
-  const enterEase = [0.22, 1, 0.36, 1];     // Smooth glide-in to stop
-  const sweepOutEase = [0.35, 0, 0.2, 1];   // Gentle acceleration from rest, steady glide across, smooth exit
-
   return (
     <AnimatePresence>
       <motion.div
@@ -90,8 +91,8 @@ export const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
           opacity: phase === 'zoom-portal' ? 0 : 1,
         }}
         transition={{
-          duration: phase === 'zoom-portal' ? 1.1 : 0.4,
-          ease: [0.65, 0, 0.35, 1],
+          duration: phase === 'zoom-portal' ? 0.8 : 0.3,
+          ease: zoomEase,
         }}
         className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#070512] overflow-hidden select-none pointer-events-auto"
       >
@@ -106,92 +107,101 @@ export const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
 
           {/* ══════════════════════════════════════════════════════════════════════════
               STAGE A: LUMIORA Lockup (Enlarged Logo + Big "LUMIORA" Text)
-              Active during 'sweep-left' and 'hold-lumiora', then erased during 'sweep-right'
+              Pre-mounted to eliminate frame-drops; smoothly transitions during sweep
              ══════════════════════════════════════════════════════════════════════════ */}
-          {(phase === 'blank' || phase === 'sweep-left' || phase === 'hold-lumiora' || phase === 'sweep-right') && (
-            <div className="relative flex items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 max-w-full">
-              
-              {/* The Logo: sweeps in slowly, holds, then glides gently across to the right */}
-              <motion.div
-                initial={{ x: '75vw', opacity: 0, rotate: 0 }}
-                animate={
-                  phase === 'blank'
-                    ? { x: '75vw', opacity: 0, rotate: 0 }
-                    : phase === 'sweep-left' || phase === 'hold-lumiora'
-                    ? { x: 0, opacity: 1, rotate: 0 }
-                    : { x: '88vw', opacity: [1, 1, 1, 0], rotate: 180 } // Slower, steady glide out to the right
-                }
-                transition={{
-                  duration: phase === 'sweep-right' ? 3.6 : 2.8,
-                  ease: phase === 'sweep-right' ? sweepOutEase : enterEase,
-                }}
-                className="relative flex-shrink-0 z-20"
-                style={{ willChange: 'transform, opacity' }}
-              >
-                {/* Luminous aura behind the enlarged logo */}
-                <div className="absolute -inset-4 sm:-inset-6 rounded-full bg-gradient-to-tr from-[#5E5BFF]/40 via-[#8B5CF6]/30 to-[#F472B6]/25 blur-2xl pointer-events-none" />
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{
+              opacity: phase === 'hold-tagline' || phase === 'zoom-portal' ? 0 : 1,
+            }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            className={`relative flex items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 max-w-full ${
+              phase === 'hold-tagline' || phase === 'zoom-portal' ? 'pointer-events-none' : ''
+            }`}
+          >
+            {/* The Logo: sweeps in, holds, then sweeps across words covering LUMIORA and revealing tagline */}
+            <motion.div
+              initial={{ x: '75vw', opacity: 0, rotate: -15, scale: 0.92 }}
+              animate={
+                phase === 'blank'
+                  ? { x: '75vw', opacity: 0, rotate: -15, scale: 0.92 }
+                  : phase === 'sweep-left' || phase === 'hold-lumiora'
+                  ? { x: 0, opacity: 1, rotate: 0, scale: 1 }
+                  : { x: '65vw', opacity: [1, 1, 0.4, 0], rotate: 15, scale: [1, 1.05, 0.95, 0.9] }
+              }
+              transition={{
+                duration: phase === 'sweep-transition' ? 1.4 : 1.3,
+                ease: phase === 'sweep-transition' ? smoothSweep : cinematicEase,
+                times: phase === 'sweep-transition' ? [0, 0.4, 0.85, 1] : undefined,
+              }}
+              className="relative flex-shrink-0 z-30"
+              style={{ willChange: 'transform, opacity' }}
+            >
+              {/* Luminous aura behind the enlarged logo */}
+              <div className="absolute -inset-4 sm:-inset-6 rounded-full bg-gradient-to-tr from-[#5E5BFF]/40 via-[#8B5CF6]/30 to-[#F472B6]/25 blur-2xl pointer-events-none" />
 
-                <img
-                  src="/logo.png"
-                  alt="Lumiora Logo"
-                  className="relative w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 xl:w-44 xl:h-44 object-contain filter drop-shadow-[0_0_35px_rgba(94,91,255,0.85)] drop-shadow-[0_0_65px_rgba(139,92,246,0.45)]"
-                />
-              </motion.div>
+              <img
+                src="/logo.png"
+                alt="Lumiora Logo"
+                className="relative w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 xl:w-44 xl:h-44 object-contain filter drop-shadow-[0_0_35px_rgba(94,91,255,0.85)] drop-shadow-[0_0_65px_rgba(139,92,246,0.45)]"
+              />
+            </motion.div>
 
-              {/* The "LUMIORA" Text: Revealed as logo sweeps left, erased in lockstep as logo sweeps right */}
-              <motion.div
-                initial={{ clipPath: 'inset(0 0 0 100%)', opacity: 1 }}
-                animate={
-                  phase === 'blank'
-                    ? { clipPath: 'inset(0 0 0 100%)', opacity: 0 }
-                    : phase === 'sweep-left' || phase === 'hold-lumiora'
-                    ? { clipPath: 'inset(0 0 0 0%)', opacity: 1 }
-                    : { clipPath: 'inset(0 0 0 100%)', opacity: 1 } // Erased from left to right trailing the logo
-                }
-                transition={{
-                  duration: phase === 'sweep-right' ? 3.6 : 2.8,
-                  ease: phase === 'sweep-right' ? sweepOutEase : enterEase,
-                }}
-                className="relative flex-shrink-0"
-                style={{ willChange: 'clip-path, opacity' }}
-              >
-                <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[104px] font-black font-logo tracking-[0.07em] bg-gradient-to-r from-white via-[#C4B5FD] via-[#7B77FF] to-[#F472B6] bg-clip-text text-transparent leading-none select-none whitespace-nowrap">
-                  LUMIORA
-                </h1>
-              </motion.div>
-            </div>
-          )}
+            {/* The "LUMIORA" Text: Revealed in sweep-left, wiped away in lockstep under logo */}
+            <motion.div
+              initial={{ clipPath: 'inset(0 0 0 100%)', opacity: 0 }}
+              animate={
+                phase === 'blank'
+                  ? { clipPath: 'inset(0 0 0 100%)', opacity: 0 }
+                  : phase === 'sweep-left' || phase === 'hold-lumiora'
+                  ? { clipPath: 'inset(0 0 0 0%)', opacity: 1 }
+                  : { clipPath: 'inset(0 0 0 100%)', opacity: 0 }
+              }
+              transition={{
+                duration: phase === 'sweep-transition' ? 1.4 : 1.3,
+                ease: phase === 'sweep-transition' ? smoothSweep : cinematicEase,
+              }}
+              className="relative flex-shrink-0 z-10"
+              style={{ willChange: 'clip-path, opacity' }}
+            >
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[104px] font-black font-logo tracking-[0.07em] bg-gradient-to-r from-white via-[#C4B5FD] via-[#7B77FF] to-[#F472B6] bg-clip-text text-transparent leading-none select-none whitespace-nowrap">
+                LUMIORA
+              </h1>
+            </motion.div>
+          </motion.div>
 
           {/* ══════════════════════════════════════════════════════════════════════════
               STAGE B: "WHERE INNOVATION BEGINS" Text
-              Written as logo sweeps right, held for 2s, then hyper-zoomed to reveal page
+              Pre-mounted in DOM; revealed in lockstep as logo sweeps across, then hyper-zoomed
              ══════════════════════════════════════════════════════════════════════════ */}
-          {(phase === 'sweep-right' || phase === 'hold-tagline' || phase === 'zoom-portal') && (
+          <div className="absolute inset-0 flex items-center justify-center text-center px-4 z-20 pointer-events-none">
+            {/* The Tagline Text: Covered and written cleanly as logo glides across */}
             <motion.div
-              initial={{ clipPath: 'inset(0 100% 0 0)', scale: 1, opacity: 1 }}
+              initial={{ clipPath: 'inset(0 100% 0 0)', scale: 1, opacity: 0 }}
               animate={
-                phase === 'sweep-right'
-                  ? { clipPath: 'inset(0 0% 0 0)', scale: 1, opacity: 1 }
-                  : phase === 'hold-tagline'
+                phase === 'blank' || phase === 'sweep-left' || phase === 'hold-lumiora'
+                  ? { clipPath: 'inset(0 100% 0 0)', scale: 1, opacity: 0 }
+                  : phase === 'sweep-transition' || phase === 'hold-tagline'
                   ? { clipPath: 'inset(0 0% 0 0)', scale: 1, opacity: 1 }
                   : {
-                      scale: 55, // Hyper-zoom inside the text
-                      opacity: [1, 0.85, 0], // Smoothly dissolves into the live page
+                      scale: 36,
+                      opacity: 0,
+                      filter: 'blur(12px)',
                     }
               }
               transition={
                 phase === 'zoom-portal'
                   ? {
-                      duration: 1.1,
-                      ease: [0.65, 0, 0.35, 1],
+                      duration: 0.8,
+                      ease: zoomEase,
                     }
                   : {
-                      duration: 3.6,
-                      ease: sweepOutEase,
+                      duration: 1.4,
+                      ease: smoothSweep,
                     }
               }
-              className="absolute inset-0 flex items-center justify-center text-center px-4"
-              style={{ transformOrigin: '50% 50%', willChange: 'transform, clip-path, opacity' }}
+              className="flex items-center justify-center text-center px-4"
+              style={{ transformOrigin: '50% 50%', willChange: 'transform, clip-path, opacity, filter' }}
             >
               <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[88px] font-black font-heading tracking-tight whitespace-nowrap text-white filter drop-shadow-[0_4px_35px_rgba(0,0,0,0.95)]">
                 WHERE{' '}
@@ -201,7 +211,7 @@ export const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                 BEGINS
               </h2>
             </motion.div>
-          )}
+          </div>
 
         </div>
 

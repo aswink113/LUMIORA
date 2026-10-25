@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { motion, useInView, useScroll } from 'framer-motion';
+import { useRef, useState, useEffect, useCallback } from 'react';
+import { motion, useInView, useScroll, useMotionValueEvent } from 'framer-motion';
 
 const steps = [
   {
@@ -67,16 +67,18 @@ interface StepItem {
   icon: React.ReactNode;
 }
 
-const ProcessStepItem = ({ step, index }: { step: StepItem; index: number }) => {
-  const stepRef = useRef<HTMLDivElement>(null);
-  const isActive = useInView(stepRef, {
-    margin: "-20% 0px -25% 0px",
-  });
+interface ProcessStepItemProps {
+  step: StepItem;
+  index: number;
+  isActive: boolean;
+  dotRef: (el: HTMLDivElement | null) => void;
+}
+
+const ProcessStepItem = ({ step, index, isActive, dotRef }: ProcessStepItemProps) => {
   const isEven = index % 2 === 0;
 
   return (
     <div
-      ref={stepRef}
       className={`relative flex items-start gap-6 md:gap-0 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
     >
       {/* Content Column */}
@@ -96,8 +98,8 @@ const ProcessStepItem = ({ step, index }: { step: StepItem; index: number }) => 
           <div
             className={`relative p-5 sm:p-6 rounded-2xl border transition-all duration-500 backdrop-blur-sm ${
               isActive
-                ? 'bg-gradient-to-b from-[#0e0a29]/80 to-[#070512]/90 border-[#A5A2FF]/40 shadow-[0_0_30px_rgba(94,91,255,0.22)] translate-y-[-2px]'
-                : 'bg-transparent border-transparent hover:border-white/5'
+                ? 'bg-gradient-to-b from-[#0e0a29]/80 to-[#070512]/90 border-[#A5A2FF]/40 shadow-[0_0_30px_rgba(94,91,255,0.22)] translate-y-[-2px] opacity-100'
+                : 'bg-white/[0.02] border-white/5 opacity-50 hover:opacity-75'
             }`}
           >
             {/* Step Header: Icon + Number */}
@@ -171,6 +173,7 @@ const ProcessStepItem = ({ step, index }: { step: StepItem; index: number }) => 
 
       {/* Centre Dot on Timeline Track */}
       <div
+        ref={dotRef}
         className={`absolute left-[20px] md:left-1/2 md:-translate-x-1/2 top-8 w-4 h-4 rounded-full border-2 transition-all duration-500 flex-shrink-0 z-20 ${
           isActive
             ? 'scale-135 bg-[#5E5BFF] border-white shadow-[0_0_22px_6px_rgba(94,91,255,0.85)] ring-4 ring-[#A5A2FF]/30'
@@ -185,12 +188,49 @@ export const Process = () => {
   const ref = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeSteps, setActiveSteps] = useState<boolean[]>([false, false, false, false, false]);
 
   // Scroll timeline progress drawing
   const { scrollYProgress } = useScroll({
     target: timelineRef,
     offset: ["start center", "end center"]
   });
+
+  const updateActiveSteps = useCallback(() => {
+    if (!timelineRef.current) return;
+    const timelineRect = timelineRef.current.getBoundingClientRect();
+    const progress = scrollYProgress.get();
+    const currentLineTipY = timelineRect.top + progress * timelineRect.height;
+
+    const newActive = dotRefs.current.map((dotEl) => {
+      if (!dotEl) return false;
+      const dotRect = dotEl.getBoundingClientRect();
+      // Only activate when the glowing line tip physically reaches the top of the dot
+      return currentLineTipY >= dotRect.top;
+    });
+
+    setActiveSteps((prev) => {
+      if (prev.length !== newActive.length) return newActive;
+      const hasChanged = prev.some((val, idx) => val !== newActive[idx]);
+      return hasChanged ? newActive : prev;
+    });
+  }, [scrollYProgress]);
+
+  useMotionValueEvent(scrollYProgress, "change", () => {
+    updateActiveSteps();
+  });
+
+  useEffect(() => {
+    updateActiveSteps();
+    const handleScrollOrResize = () => updateActiveSteps();
+    window.addEventListener('scroll', handleScrollOrResize, { passive: true });
+    window.addEventListener('resize', handleScrollOrResize);
+    return () => {
+      window.removeEventListener('scroll', handleScrollOrResize);
+      window.removeEventListener('resize', handleScrollOrResize);
+    };
+  }, [updateActiveSteps]);
 
   return (
     <section id="process" ref={ref} className="relative py-28 overflow-hidden bg-[#070512] text-white transition-colors duration-300">
@@ -233,12 +273,20 @@ export const Process = () => {
           {/* Glowing active drawing line */}
           <motion.div 
             style={{ scaleY: scrollYProgress, originY: 0 }}
-            className="absolute left-[27px] md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-gradient-to-b from-[#5E5BFF] via-[#A5A2FF] to-[#F472B6]" 
+            className="absolute left-[27px] md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-gradient-to-b from-[#5E5BFF] via-[#A5A2FF] to-[#F472B6] shadow-[0_0_8px_rgba(165,162,255,0.8)]" 
           />
 
           <div className="flex flex-col gap-12 sm:gap-16">
             {steps.map((step, i) => (
-              <ProcessStepItem key={i} step={step} index={i} />
+              <ProcessStepItem
+                key={i}
+                step={step}
+                index={i}
+                isActive={activeSteps[i] ?? false}
+                dotRef={(el) => {
+                  dotRefs.current[i] = el;
+                }}
+              />
             ))}
           </div>
         </div>
