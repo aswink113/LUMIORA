@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useReducedMotion, type Variants } from 'framer-motion';
 import {
   Globe,
   Smartphone,
@@ -190,7 +190,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenPlanner 
   const activeGroup = serviceGroups[activeGroupIndex];
 
   // Motion variants for sequential zoom and stagger
-  const groupVariants = {
+  const groupVariants: Variants = {
     hidden: {
       opacity: 0,
       scale: shouldReduceMotion ? 1 : 0.90,
@@ -202,7 +202,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenPlanner 
       y: 0,
       transition: {
         duration: shouldReduceMotion ? 0.01 : 0.55,
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.16, 1, 0.3, 1] as const,
         staggerChildren: shouldReduceMotion ? 0 : 0.07,
         delayChildren: shouldReduceMotion ? 0 : 0.05,
       },
@@ -213,19 +213,19 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onOpenPlanner 
       y: shouldReduceMotion ? 0 : -20,
       transition: {
         duration: shouldReduceMotion ? 0.01 : 0.3,
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.16, 1, 0.3, 1] as const,
       },
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 16 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: shouldReduceMotion ? 0.01 : 0.45,
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.16, 1, 0.3, 1] as const,
       },
     },
   };

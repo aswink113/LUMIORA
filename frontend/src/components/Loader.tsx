@@ -34,9 +34,9 @@ export const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
   }, [complete]);
 
   // Cinematic easing curves
-  const cinematicEase = [0.16, 1, 0.3, 1];  // Ultra-smooth Apple-grade quintic deceleration
-  const smoothSweep = [0.4, 0, 0.2, 1];     // Continuous, fluid acceleration-deceleration for sweeps
-  const zoomEase = [0.7, 0, 0.2, 1];        // Exponential hyper-zoom acceleration
+  const cinematicEase = [0.16, 1, 0.3, 1] as const;  // Ultra-smooth Apple-grade quintic deceleration
+  const smoothSweep = [0.4, 0, 0.2, 1] as const;     // Continuous, fluid acceleration-deceleration for sweeps
+  const zoomEase = [0.7, 0, 0.2, 1] as const;        // Exponential hyper-zoom acceleration
 
   // Orchestrate the seamless timeline
   useEffect(() => {
